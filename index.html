@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Playboy Rostov</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Open Sans', sans-serif;
+      background-color: #fff;
+      color: #333;
+      overflow: hidden;
+    }
+
+    .background-desktop,
+    .background-mobile {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -3;
+    }
+
+    .background-mobile {
+      display: none;
+    }
+
+    /* Показываем мобильный фон только на маленьких экранах */
+    @media (max-width: 768px) {
+      .background-desktop {
+        display: none;
+      }
+      .background-mobile {
+        display: block;
+      }
+    }
+
+    .blur-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: -2;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+      padding: 20px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #e91e63;
+    }
+
+    p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(to right, #e91e63, #ff5722);
+      color: white;
+      padding: 15px 30px;
+      font-size: 1rem;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 87, 34, 0.4);
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #aaa;
+      animation: fadeInUp 1s ease-out;
+      animation-delay: 1s;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Фон для десктопа -->
+  <img src="background-desktop.jpg" alt="Фон для компьютера" class="background-desktop">
+
+  <!-- Фон для мобильных -->
+  <img src="background-mobile.jpg" alt="Фон для телефона" class="background-mobile">
+
+  <!-- Блюрный слой -->
+  <div class="blur-overlay"></div>
+
+  <!-- Основной контент -->
+  <div class="container">
+    <h1>Playboy Rostov</h1>
+    <p>Элитное сопровождение в Ростове-на-Дону. Только профессионалы высокого уровня. Утончённый вкус, безупречное поведение и индивидуальный подход к каждому клиенту.</p>
+    <a href=" https://t.me/playboy_escobot " class="btn" target="_blank">Связаться в Telegram</a>
+  </div>
+
+  <div class="footer">
+    &copy; 2025 Playboy Rostov. Все права защищены.
+  </div>
+
+</body>
+</html>
