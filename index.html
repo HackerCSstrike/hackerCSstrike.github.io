@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Playboy Rostov</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #fff;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 40px 20px;
+      transition: all 0.3s ease;
+    }
+
+    .container {
+      max-width: 700px;
+      width: 100%;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #e91e63;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(to right, #e91e63, #ff5722);
+      color: white;
+      padding: 15px 30px;
+      font-size: 1rem;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 87, 34, 0.4);
+    }
+
+    .footer {
+      margin-top: 60px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Playboy Rostov</h1>
+    <p>Элитное сопровождение в Ростове-на-Дону. Только профессионалы высокого уровня. Утончённый вкус, безупречное поведение и индивидуальный подход к каждому клиенту.</p>
+    <a href=" https://t.me/playboy_escobot " class="btn" target="_blank">Связаться в Telegram</a>
+  </div>
+
+  <div class="footer">
+    &copy; 2025 Playboy Rostov. Все права защищены.
+  </div>
+
+</body>
+</html>
