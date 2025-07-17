@@ -25,6 +25,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
     }
 
     @media (min-width: 768px) {
@@ -48,21 +49,51 @@
       position: relative;
       z-index: 1;
       max-width: 620px;
-      width: 90%; /* Уменьшаем ширину на мобильных */
+      width: 90%;
       padding: 3rem 2rem;
-      background: rgba(255, 255, 255, 0.4); /* Светлее фон карточки */
+      background: rgba(255, 255, 255, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 24px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease;
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .lang-switch {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .lang-switch button {
+      background: none;
+      border: none;
+      font-weight: 600;
+      color: #e91e63;
+      cursor: pointer;
     }
 
     @media (max-width: 767px) {
       .card {
-        width: 80%; /* Ещё меньше на телефонах */
+        width: 80%;
         padding: 2rem 1.5rem;
-        background: rgba(255, 255, 255, 0.6); /* Более плотный фон без блюра */
-        backdrop-filter: none; /* Убрали размытие */
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: none;
+        box-shadow: none;
+      }
+
+      .lang-switch {
+        top: 10px;
+        right: 15px;
       }
     }
 
@@ -102,14 +133,56 @@
       font-size: 0.85rem;
       color: #444;
     }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <main class="card">
-    <h1>PlayBoy Rostov</h1>
-    <p>Премиальное эскорт-агентство.<br>Стиль, конфиденциальность и комфорт 24/7.</p>
+  <main class="card" id="mainCard">
+    <div class="lang-switch">
+      <button onclick="setLang('ru')">RU</button>
+      <button onclick="setLang('en')">EN</button>
+    </div>
+
+    <h1 id="title">PlayBoy Rostov</h1>
+    <p id="description">Премиальное эскорт-агентство.<br>Стиль, конфиденциальность и комфорт 24/7.</p>
     <a href=" https://t.me/playboy_escobot " target="_blank" class="cta">Перейти в агентство</a>
-    <footer>© PlayBoy Rostov • 18+ • Все модели совершеннолетние</footer>
+    <footer id="footer">© PlayBoy Rostov • 18+ • Все модели совершеннолетние</footer>
   </main>
+
+  <script>
+    // Анимация появления
+    window.addEventListener('DOMContentLoaded', () => {
+      const card = document.getElementById('mainCard');
+      setTimeout(() => {
+        card.classList.add('visible');
+      }, 300);
+    });
+
+    // Переводы
+    const texts = {
+      ru: {
+        title: "PlayBoy Rostov",
+        description: "Премиальное эскорт-агентство.<br>Стиль, конфиденциальность и комфорт 24/7.",
+        cta: "Перейти в агентство",
+        footer: "© PlayBoy Rostov • 18+ • Все модели совершеннолетние"
+      },
+      en: {
+        title: "PlayBoy Rostov",
+        description: "Premium escort agency.<br>Style, privacy and comfort 24/7.",
+        cta: "Go to the agency",
+        footer: "© PlayBoy Rostov • 18+ • All models are of legal age"
+      }
+    };
+
+    function setLang(lang) {
+      document.getElementById('title').innerText = texts[lang].title;
+      document.getElementById('description').innerHTML = texts[lang].description;
+      document.querySelector('.cta').innerText = texts[lang].cta;
+      document.getElementById('footer').innerText = texts[lang].footer;
+    }
+  </script>
 </body>
 </html>
