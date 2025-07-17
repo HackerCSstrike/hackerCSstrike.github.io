@@ -10,6 +10,7 @@
 
   <style>
     * { box-sizing: border-box; }
+
     html, body {
       margin: 0;
       padding: 0;
@@ -38,7 +39,7 @@
       position: fixed;
       inset: 0;
       background: rgba(255,255,255,0.25);
-      backdrop-filter: blur(4px); /* мягче */
+      backdrop-filter: blur(5px);
       mix-blend-mode: lighten;
       z-index: 0;
     }
@@ -47,36 +48,42 @@
       position: relative;
       z-index: 1;
       max-width: 620px;
-      width: 100%;
-      padding: 2.5rem 1.8rem;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      width: 90%; /* Уменьшаем ширину на мобильных */
+      padding: 3rem 2rem;
+      background: rgba(255, 255, 255, 0.4); /* Светлее фон карточки */
+      border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 24px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       text-align: center;
-      margin: 1rem;
-      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 767px) {
+      .card {
+        width: 80%; /* Ещё меньше на телефонах */
+        padding: 2rem 1.5rem;
+        background: rgba(255, 255, 255, 0.6); /* Более плотный фон без блюра */
+        backdrop-filter: none; /* Убрали размытие */
+      }
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 6vw, 3.5rem);
+      font-size: clamp(2.7rem, 6vw, 3.5rem);
       margin: 0 0 1rem;
     }
 
     p {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-weight: 300;
       line-height: 1.6;
-      margin: 0 0 2rem;
+      margin: 0 0 2.5rem;
     }
 
     a.cta {
       display: inline-block;
       padding: 1rem 2.5rem;
       border-radius: 50px;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-weight: 500;
       background: linear-gradient(135deg, #fff 0%, #fcefee 100%);
       color: #111;
@@ -95,32 +102,13 @@
       font-size: 0.85rem;
       color: #444;
     }
-
-    @media (max-width: 480px) {
-      .card {
-        max-width: 90%;
-        padding: 2rem 1.2rem;
-        backdrop-filter: blur(6px); /* уменьшено размытие */
-        background: rgba(255, 255, 255, 0.15);
-        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-      }
-
-      p {
-        font-size: 1rem;
-      }
-
-      a.cta {
-        font-size: 1rem;
-        padding: 0.9rem 2rem;
-      }
-    }
   </style>
 </head>
 <body>
   <main class="card">
     <h1>PlayBoy Rostov</h1>
     <p>Премиальное эскорт-агентство.<br>Стиль, конфиденциальность и комфорт 24/7.</p>
-    <a href="https://t.me/playboy_escobot" target="_blank" class="cta">Перейти в агентство</a>
+    <a href=" https://t.me/playboy_escobot " target="_blank" class="cta">Перейти в агентство</a>
     <footer>© PlayBoy Rostov • 18+ • Все модели совершеннолетние</footer>
   </main>
 </body>
