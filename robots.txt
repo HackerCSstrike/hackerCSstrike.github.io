@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://playboyrostov.click/sitemap.xml 
