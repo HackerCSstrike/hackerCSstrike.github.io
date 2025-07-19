@@ -25,7 +25,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
+      overflow: auto;
+      flex-direction: column;
     }
 
     @media (min-width: 768px) {
@@ -58,6 +59,7 @@
       opacity: 0;
       transform: translateY(20px);
       transition: all 0.8s ease;
+      margin-top: 3rem;
     }
 
     .card.visible {
@@ -132,6 +134,57 @@
       color: #444;
     }
 
+    .why-us {
+      position: relative;
+      z-index: 1;
+      margin-top: 3rem;
+      text-align: center;
+      max-width: 960px;
+      width: 90%;
+    }
+
+    .why-us h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #111;
+    }
+
+    .cards {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .feature-card {
+      background: #fff;
+      padding: 1.5rem 1rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 240px;
+      flex: 1 1 200px;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.2rem;
+      color: #c71585;
+      font-weight: 600;
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: #333;
+      margin: 0;
+    }
+
     .hidden {
       display: none;
     }
@@ -146,9 +199,29 @@
 
     <h1 id="title">PlayBoy Rostov</h1>
     <p id="description">Премиальное эскорт-агентство.<br>Стиль, конфиденциальность и комфорт 24/7.</p>
-    <a href=" https://t.me/playboy_escobot " target="_blank" class="cta">Перейти в агентство</a>
+    <a href="https://t.me/playboy_escobot" target="_blank" class="cta">Перейти в агентство</a>
+
     <footer id="footer">© PlayBoy Rostov • 18+ • Все модели совершеннолетние</footer>
   </main>
+
+  <!-- Почему выбирают нас -->
+  <section class="why-us">
+    <h2>Почему выбирают нас</h2>
+    <div class="cards">
+      <div class="feature-card">
+        <h3>Премиум девушки</h3>
+        <p>Только отобранные модели с высоким уровнем сервиса и внешности.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Анонимность</h3>
+        <p>Конфиденциальность клиентов — наш абсолютный приоритет.</p>
+      </div>
+      <div class="feature-card">
+        <h3>24/7 Поддержка</h3>
+        <p>Мы всегда на связи. Доступны круглосуточно для ваших желаний.</p>
+      </div>
+    </div>
+  </section>
 
   <script>
     // Анимация появления
@@ -184,3 +257,4 @@
   </script>
 </body>
 </html>
+
