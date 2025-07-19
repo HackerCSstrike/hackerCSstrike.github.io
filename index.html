@@ -19,21 +19,31 @@
       color: #1a1a1a;
     }
 
-    body {
-      background: url("bg-mobile.webp") no-repeat center center fixed;
-      background-size: cover;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: auto;
-      flex-direction: column;
-    }
+   body {
+  background-image: url("bg-mobile.webp");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: scroll; /* для мобильных и маленьких экранов */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+}
 
-    @media (min-width: 768px) {
-      body {
-        background: url("bg-desktop.webp") no-repeat center center fixed;
-        background-size: cover;
-      }
+@media (min-width: 768px) {
+  body {
+    background-image: url("bg-desktop.webp");
+    background-attachment: fixed; /* фиксированный фон на ПК */
+  }
+}
+
     }
 
     body::before {
@@ -51,15 +61,15 @@
       z-index: 1;
       max-width: 620px;
       width: 90%;
-      padding: 3rem 2rem;
+      padding: 2rem 1.5rem;
       background: #fff;
-      border-radius: 24px;
+      border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       text-align: center;
       opacity: 0;
       transform: translateY(20px);
       transition: all 0.8s ease;
-      margin-top: 3rem;
+      margin-top: 2rem;
     }
 
     .card.visible {
@@ -69,8 +79,8 @@
 
     .lang-switch {
       position: absolute;
-      top: 15px;
-      right: 20px;
+      top: 10px;
+      right: 15px;
       display: flex;
       gap: 10px;
     }
@@ -81,40 +91,27 @@
       font-weight: 600;
       color: #e91e63;
       cursor: pointer;
-    }
-
-    @media (max-width: 767px) {
-      .card {
-        width: 80%;
-        padding: 2rem 1.5rem;
-        background: #fff;
-        box-shadow: none;
-      }
-
-      .lang-switch {
-        top: 10px;
-        right: 15px;
-      }
+      font-size: 0.9rem;
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.7rem, 6vw, 3.5rem);
+      font-size: clamp(2rem, 8vw, 3rem);
       margin: 0 0 1rem;
     }
 
     p {
-      font-size: 1.2rem;
+      font-size: clamp(1rem, 4vw, 1.2rem);
       font-weight: 300;
       line-height: 1.6;
-      margin: 0 0 2.5rem;
+      margin: 0 0 2rem;
     }
 
     a.cta {
       display: inline-block;
-      padding: 1rem 2.5rem;
-      border-radius: 50px;
-      font-size: 1.1rem;
+      padding: 0.8rem 2rem;
+      border-radius: 30px;
+      font-size: clamp(0.9rem, 4vw, 1.1rem);
       font-weight: 500;
       background: linear-gradient(135deg, #fff 0%, #fcefee 100%);
       color: #111;
@@ -129,15 +126,15 @@
     }
 
     footer {
-      margin-top: 2rem;
-      font-size: 0.85rem;
+      margin-top: 1.5rem;
+      font-size: clamp(0.8rem, 3vw, 0.9rem);
       color: #444;
     }
 
     .why-us {
       position: relative;
       z-index: 1;
-      margin-top: 3rem;
+      margin-top: 2rem;
       text-align: center;
       max-width: 960px;
       width: 90%;
@@ -145,26 +142,32 @@
 
     .why-us h2 {
       font-family: 'Playfair Display', serif;
-      font-size: 2rem;
+      font-size: clamp(1.5rem, 6vw, 2rem);
       margin-bottom: 1.5rem;
       color: #111;
     }
 
     .cards {
       display: flex;
-      gap: 1.2rem;
+      gap: 1rem;
       flex-wrap: wrap;
       justify-content: center;
     }
 
     .feature-card {
       background: #fff;
-      padding: 1.5rem 1rem;
-      border-radius: 20px;
+      padding: 1rem 0.8rem;
+      border-radius: 15px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      max-width: 240px;
-      flex: 1 1 200px;
+      max-width: 100%;
+      flex: 1 1 calc(50% - 1rem);
       transition: transform 0.3s ease;
+    }
+
+    @media (max-width: 767px) {
+      .feature-card {
+        flex: 1 1 100%;
+      }
     }
 
     .feature-card:hover {
@@ -173,20 +176,16 @@
 
     .feature-card h3 {
       margin: 0 0 0.5rem;
-      font-size: 1.2rem;
+      font-size: clamp(1rem, 4vw, 1.2rem);
       color: #c71585;
       font-weight: 600;
     }
 
     .feature-card p {
-      font-size: 0.95rem;
+      font-size: clamp(0.8rem, 4vw, 0.95rem);
       font-weight: 300;
       color: #333;
       margin: 0;
-    }
-
-    .hidden {
-      display: none;
     }
   </style>
 </head>
@@ -199,7 +198,7 @@
 
     <h1 id="title">PlayBoy Rostov</h1>
     <p id="description">Премиальное эскорт-агентство.<br>Стиль, конфиденциальность и комфорт 24/7.</p>
-    <a href="https://t.me/playboy_escobot" target="_blank" class="cta">Перейти в агентство</a>
+    <a href=" https://t.me/playboy_escobot " target="_blank" class="cta">Перейти в агентство</a>
 
     <footer id="footer">© PlayBoy Rostov • 18+ • Все модели совершеннолетние</footer>
   </main>
