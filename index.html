@@ -3,14 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlayBoy Rostov — эскорт-агентство</title>
+  <title>Проститутки Ростов — эскорт-агентство PlayBoy Rostov | Интим услуги 24/7</title>
+
+  <meta name="description" content="PlayBoy Rostov — премиальное эскорт-агентство в Ростове. Проститутки, девушки по вызову, интим услуги Ростов-на-Дону. Конфиденциально и круглосуточно." />
+  <meta name="keywords" content="проститутки ростов, шлюхи ростов, снять девушку ростов, девушки по вызову ростов, интим услуги ростов" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Проститутки Ростов — эскорт-агентство PlayBoy Rostov" />
+  <meta property="og:description" content="Премиальные девушки по вызову в Ростове. Конфиденциальность, комфорт и стиль 24/7." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://playboyrostov.click/" />
+  <meta property="og:image" content="https://playboyrostov.click/og-image.jpg" />
 
   <!-- Шрифты -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
     * { box-sizing: border-box; }
-
     html, body {
       margin: 0;
       padding: 0;
@@ -19,31 +29,19 @@
       color: #1a1a1a;
     }
 
-   body {
-  background-image: url("bg-mobile.webp");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  background-attachment: scroll; /* для мобильных и маленьких экранов */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: auto;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: 'Inter', sans-serif;
-  color: #1a1a1a;
-}
+    body {
+      background: url("bg-mobile.webp") no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-@media (min-width: 768px) {
-  body {
-    background-image: url("bg-desktop.webp");
-    background-attachment: fixed; /* фиксированный фон на ПК */
-  }
-}
-
+    @media (min-width: 768px) {
+      body {
+        background: url("bg-desktop.webp") no-repeat center center fixed;
+        background-size: cover;
+      }
     }
 
     body::before {
@@ -60,58 +58,56 @@
       position: relative;
       z-index: 1;
       max-width: 620px;
-      width: 90%;
-      padding: 2rem 1.5rem;
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      width: 100%;
+      padding: 3rem 2rem;
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 24px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       text-align: center;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.8s ease;
-      margin-top: 2rem;
-    }
-
-    .card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .lang-switch {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      display: flex;
-      gap: 10px;
-    }
-
-    .lang-switch button {
-      background: none;
-      border: none;
-      font-weight: 600;
-      color: #e91e63;
-      cursor: pointer;
-      font-size: 0.9rem;
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 8vw, 3rem);
+      font-size: clamp(2.7rem, 6vw, 3.5rem);
       margin: 0 0 1rem;
     }
 
     p {
-      font-size: clamp(1rem, 4vw, 1.2rem);
+      font-size: 1.2rem;
       font-weight: 300;
       line-height: 1.6;
-      margin: 0 0 2rem;
+      margin: 0 0 2.5rem;
+    }
+
+    section {
+      text-align: left;
+      margin-bottom: 2rem;
+    }
+
+    section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+      font-weight: 300;
+      font-size: 1.1rem;
+    }
+
+    ul li {
+      margin-bottom: 0.5rem;
     }
 
     a.cta {
       display: inline-block;
-      padding: 0.8rem 2rem;
-      border-radius: 30px;
-      font-size: clamp(0.9rem, 4vw, 1.1rem);
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-size: 1.1rem;
       font-weight: 500;
       background: linear-gradient(135deg, #fff 0%, #fcefee 100%);
       color: #111;
@@ -126,133 +122,32 @@
     }
 
     footer {
-      margin-top: 1.5rem;
-      font-size: clamp(0.8rem, 3vw, 0.9rem);
-      color: #444;
-    }
-
-    .why-us {
-      position: relative;
-      z-index: 1;
       margin-top: 2rem;
-      text-align: center;
-      max-width: 960px;
-      width: 90%;
-    }
-
-    .why-us h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.5rem, 6vw, 2rem);
-      margin-bottom: 1.5rem;
-      color: #111;
-    }
-
-    .cards {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .feature-card {
-      background: #fff;
-      padding: 1rem 0.8rem;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      max-width: 100%;
-      flex: 1 1 calc(50% - 1rem);
-      transition: transform 0.3s ease;
-    }
-
-    @media (max-width: 767px) {
-      .feature-card {
-        flex: 1 1 100%;
-      }
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .feature-card h3 {
-      margin: 0 0 0.5rem;
-      font-size: clamp(1rem, 4vw, 1.2rem);
-      color: #c71585;
-      font-weight: 600;
-    }
-
-    .feature-card p {
-      font-size: clamp(0.8rem, 4vw, 0.95rem);
-      font-weight: 300;
-      color: #333;
-      margin: 0;
+      font-size: 0.85rem;
+      color: #444;
     }
   </style>
 </head>
 <body>
-  <main class="card" id="mainCard">
-    <div class="lang-switch">
-      <button onclick="setLang('ru')">RU</button>
-      <button onclick="setLang('en')">EN</button>
-    </div>
+  <main class="card" role="main">
+    <h1>PlayBoy Rostov — </h1>
+    <p>Премиальное эскорт-агентство в Ростове-на-Дону.<br>
+       Конфиденциальность, комфорт и стиль — интим услуги Ростов 24/7.</p>
 
-    <h1 id="title">PlayBoy Rostov</h1>
-    <p id="description">Премиальное эскорт-агентство.<br>Стиль, конфиденциальность и комфорт 24/7.</p>
-    <a href=" https://t.me/playboy_escobot " target="_blank" class="cta">Перейти в агентство</a>
+    <section>
+      <h2>Наши услуги</h2>
+      <ul>
+        <li>• Проститутки Ростов — профессиональные и красивые девушки</li>
+        <li>• Шлюхи Ростов — доступные варианты без компромиссов</li>
+        <li>• Снять девушку Ростов — быстрый подбор под ваши пожелания</li>
+        <li>• Девушки по вызову Ростов — круглосуточно и конфиденциально</li>
+        <li>• Интим услуги Ростов — стиль и комфорт на высшем уровне</li>
+      </ul>
+    </section>
 
-    <footer id="footer">© PlayBoy Rostov • 18+ • Все модели совершеннолетние</footer>
+    <a href="https://t.me/playboy_escobot" target="_blank" rel="noopener" class="cta" aria-label="Перейти в агентство PlayBoy Rostov в Telegram">Перейти в агентство</a>
+
+    <footer>© PlayBoy Rostov • 18+ • Все модели совершеннолетние</footer>
   </main>
-
-  <!-- Почему выбирают нас -->
-  <section class="why-us">
-    <h2>Почему выбирают нас</h2>
-    <div class="cards">
-      <div class="feature-card">
-        <h3>Премиум девушки</h3>
-        <p>Только отобранные модели с высоким уровнем сервиса и внешности.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Анонимность</h3>
-        <p>Конфиденциальность клиентов — наш абсолютный приоритет.</p>
-      </div>
-      <div class="feature-card">
-        <h3>24/7 Поддержка</h3>
-        <p>Мы всегда на связи. Доступны круглосуточно для ваших желаний.</p>
-      </div>
-    </div>
-  </section>
-
-  <script>
-    // Анимация появления
-    window.addEventListener('DOMContentLoaded', () => {
-      const card = document.getElementById('mainCard');
-      setTimeout(() => {
-        card.classList.add('visible');
-      }, 300);
-    });
-
-    // Переводы
-    const texts = {
-      ru: {
-        title: "PlayBoy Rostov",
-        description: "Премиальное эскорт-агентство.<br>Стиль, конфиденциальность и комфорт 24/7.",
-        cta: "Перейти в агентство",
-        footer: "© PlayBoy Rostov • 18+ • Все модели совершеннолетние"
-      },
-      en: {
-        title: "PlayBoy Rostov",
-        description: "Premium escort agency.<br>Style, privacy and comfort 24/7.",
-        cta: "Go to the agency",
-        footer: "© PlayBoy Rostov • 18+ • All models are of legal age"
-      }
-    };
-
-    function setLang(lang) {
-      document.getElementById('title').innerText = texts[lang].title;
-      document.getElementById('description').innerHTML = texts[lang].description;
-      document.querySelector('.cta').innerText = texts[lang].cta;
-      document.getElementById('footer').innerText = texts[lang].footer;
-    }
-  </script>
 </body>
 </html>
