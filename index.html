@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Casino</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header glass">
+            <div class="balance-info">
+                <span class="balance-label">Баланс</span>
+                <span class="balance-value" id="balance">0.00</span>
+                <span class="currency">₽</span>
+            </div>
+            <div class="jackpot-info">
+                <span class="jackpot-label">Джекпот</span>
+                <span class="jackpot-value" id="jackpot">0.00</span>
+                <span class="currency">₽</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Game Selection -->
+            <section class="game-selection" id="gameSelection">
+                <h2 class="section-title">Выберите игру</h2>
+                <div class="games-grid">
+                    <div class="game-card glass" data-game="basketball">
+                        <div class="game-emoji">🏀</div>
+                        <div class="game-name">Баскетбол</div>
+                        <div class="game-coefs">
+                            <span>Гол: x1.8</span>
+                            <span>Мимо: x0</span>
+                        </div>
+                    </div>
+                    <div class="game-card glass" data-game="dice">
+                        <div class="game-emoji">🎲</div>
+                        <div class="game-name">Кости</div>
+                        <div class="game-coefs">
+                            <span>Все: x1.8</span>
+                        </div>
+                    </div>
+                    <div class="game-card glass" data-game="football">
+                        <div class="game-emoji">⚽</div>
+                        <div class="game-name">Футбол</div>
+                        <div class="game-coefs">
+                            <span>Гол: x1.8</span>
+                            <span>Мимо: x1.3</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bet Interface -->
+            <section class="bet-interface hidden" id="betInterface">
+                <button class="back-button glass" id="backButton">← Назад</button>
+                
+                <div class="game-info glass">
+                    <div class="game-emoji-large" id="gameEmoji">🏀</div>
+                    <div class="game-title" id="gameTitle">Баскетбол</div>
+                </div>
+
+                <div class="bet-options glass" id="betOptions"></div>
+
+                <div class="bet-input-section glass">
+                    <label class="input-label">Сумма ставки (₽)</label>
+                    <input type="number" id="betAmount" class="bet-input" min="1" step="1" placeholder="0">
+                    <div class="quick-bets">
+                        <button class="quick-bet" data-amount="10">10</button>
+                        <button class="quick-bet" data-amount="50">50</button>
+                        <button class="quick-bet" data-amount="100">100</button>
+                        <button class="quick-bet" data-amount="500">500</button>
+                    </div>
+                </div>
+
+                <button class="play-button glass" id="playButton">Играть</button>
+            </section>
+
+            <!-- Game Animation -->
+            <section class="game-animation hidden" id="gameAnimation">
+                <div class="emoji-container">
+                    <div class="game-emoji-animated" id="animatedEmoji">🏀</div>
+                </div>
+            </section>
+
+            <!-- Result Card -->
+            <section class="result-card hidden" id="resultCard">
+                <div class="result-content glass">
+                    <div class="result-emoji" id="resultEmoji">🎉</div>
+                    <div class="result-title" id="resultTitle">Выигрыш!</div>
+                    <div class="result-amount" id="resultAmount">+0.00 ₽</div>
+                    <button class="result-button" id="resultButton">Продолжить</button>
+                </div>
+            </section>
+
+            <!-- Profile -->
+            <section class="profile hidden" id="profile">
+                <button class="back-button glass" id="profileBackButton">← Назад</button>
+                <div class="profile-content glass">
+                    <div class="profile-header">
+                        <div class="profile-avatar">👤</div>
+                        <div class="profile-info">
+                            <div class="profile-username" id="profileUsername">@username</div>
+                            <div class="profile-id">ID: <span id="profileId">0</span></div>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Ставок</span>
+                            <span class="stat-value" id="statBets">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Выигрышей</span>
+                            <span class="stat-value" id="statWins">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Пополнений</span>
+                            <span class="stat-value" id="statDeposits">0.00 ₽</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Выводов</span>
+                            <span class="stat-value" id="statWithdrawals">0.00 ₽</span>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="action-button glass" id="depositButton">Пополнить</button>
+                        <button class="action-button glass" id="withdrawButton">Вывести</button>
+                        <button class="action-button glass" id="referralButton">Реферальная система</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leaders -->
+            <section class="leaders hidden" id="leaders">
+                <button class="back-button glass" id="leadersBackButton">← Назад</button>
+                <div class="leaders-content glass">
+                    <h2 class="section-title">🏆 Топ игроков</h2>
+                    <div class="leaders-list" id="leadersList"></div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav glass">
+            <button class="nav-item active" data-page="games">
+                <span class="nav-icon">🎮</span>
+                <span class="nav-label">Игры</span>
+            </button>
+            <button class="nav-item" data-page="profile">
+                <span class="nav-icon">👤</span>
+                <span class="nav-label">Профиль</span>
+            </button>
+            <button class="nav-item" data-page="leaders">
+                <span class="nav-icon">🏆</span>
+                <span class="nav-label">Лидеры</span>
+            </button>
+            <button class="nav-item" id="channelButton">
+                <span class="nav-icon">📢</span>
+                <span class="nav-label">Канал</span>
+            </button>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
