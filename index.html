@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebXStudio: Новые Задания</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        /* Базовые стили для имитации интерфейса */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            /* Используем цвета темы Telegram */
+            background-color: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+        }
+        .task-card {
+            background-color: var(--tg-theme-secondary-bg-color);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .button-perform {
+            background-color: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Новые Задания</h1>
+
+    <div class="task-card">
+        <h3>Сделать фотографию: Фото дерева</h3>
+        <p>Стоимость: 520 ₽</p>
+        <button class="button-perform" onclick="performTask('photo_tree_520', 520)">
+            Выполнить
+        </button>
+    </div>
+
+    <script>
+        // Инициализация Web App
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        
+        // Устанавливаем цвет фона (опционально, но рекомендуется)
+        // document.body.style.backgroundColor = tg.themeParams.bg_color;
+        
+        function performTask(taskId, amount) {
+            // Этап 1: Имитация модерации
+            alert("Идет загрузка фото и модерация...");
+            
+            // Имитация задержки (в реальном приложении это будет происходить на Backend)
+            setTimeout(() => {
+                
+                // Этап 2: Подготовка и отправка данных боту
+                const completionData = JSON.stringify({ 
+                    action: "task_complete", 
+                    task_id: taskId, 
+                    amount_earned: amount,
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Отправляем данные боту. Бот получит их в своем обработчике message.web_app_data
+                tg.sendData(completionData);
+                
+                // Оповещение пользователя
+                alert(`🎉 Задание ${taskId} выполнено! Средства зачислены (имитация).`);
+                
+                // В реальном приложении здесь произойдет переход на экран "Кошелек"
+                // или закрытие/обновление Web App
+                
+            }, 3000); // 3 секунды имитации модерации
+        }
+    </script>
+</body>
+</html>
