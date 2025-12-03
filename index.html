@@ -1,83 +1,332 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>WebXStudio: Новые Задания</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>WebXStudio Tasks</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Базовые стили для имитации интерфейса */
+        /* ВАЖНО: Весь CSS-код будет здесь */
+        /* Используйте секцию 2 ниже для стилей */
+        :root {
+            /* Переменные для цвета текста и кнопок по умолчанию */
+            --tg-text-color: #000000;
+            --tg-bg-color: #FFFFFF;
+            --tg-secondary-bg-color: #F8F8F8;
+            --tg-button-color: #007AFF; 
+            --tg-button-text-color: #FFFFFF;
+        }
+
+        /* --- Общие стили и сброс --- */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            /* Используем цвета темы Telegram */
-            background-color: var(--tg-theme-bg-color);
+            padding: 0 0 70px 0; /* Отступ для нижнего меню */
+            background-color: var(--tg-theme-bg-color, var(--tg-bg-color));
+            color: var(--tg-theme-text-color, var(--tg-text-color));
+            overflow-x: hidden;
+            -webkit-user-select: none; /* Запрет выделения на iOS */
+            user-select: none;
+            min-height: 100vh;
+        }
+
+        /* --- Шаблоны из ваших скриншотов --- */
+        
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 22px;
             color: var(--tg-theme-text-color);
         }
-        .task-card {
-            background-color: var(--tg-theme-secondary-bg-color);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        .button-perform {
-            background-color: var(--tg-theme-button-color);
-            color: var(--tg-theme-button-text-color);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            width: 100%;
+        .header .back-arrow {
+            font-size: 24px;
+            margin-right: 15px;
             cursor: pointer;
-            font-size: 16px;
         }
+        
+        .content-section {
+            padding: 0 15px;
+        }
+        
+        /* Стиль для отдельного задания (карточки) */
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--tg-theme-secondary-bg-color, #EFEFEF);
+            cursor: pointer;
+        }
+        .task-info {
+            line-height: 1.4;
+        }
+        .task-title {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        .task-price {
+            font-weight: 600;
+            color: #4CAF50; /* Зеленый цвет для цены */
+        }
+        .task-detail-icon {
+            font-size: 24px;
+            color: #C7C7CC; /* Светло-серый цвет */
+        }
+        .task-tool {
+            font-size: 13px;
+            color: #9C9C9C;
+        }
+        
+        /* Стиль для кнопки "Выполнить" на экране деталей */
+        .action-button-large {
+            width: calc(100% - 30px);
+            position: fixed;
+            bottom: 70px; /* Над нижним меню */
+            left: 15px;
+            padding: 15px;
+            background-color: var(--tg-theme-button-color, #007AFF);
+            color: var(--tg-theme-button-text-color, #FFFFFF);
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        /* --- Кошелек --- */
+        .wallet-header {
+            text-align: center;
+            padding: 20px 0 10px 0;
+        }
+        .wallet-balance {
+            font-size: 40px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .wallet-actions {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--tg-theme-secondary-bg-color, #EFEFEF);
+        }
+        .wallet-action-item {
+            text-align: center;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--tg-theme-link-color, #007AFF);
+        }
+        .wallet-action-item .icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--tg-theme-secondary-bg-color, #EFEFEF);
+        }
+        .transaction-info .date {
+            font-size: 13px;
+            color: #9C9C9C;
+        }
+        .transaction-amount {
+            font-weight: 600;
+        }
+        .transaction-card {
+            font-size: 13px;
+            color: #9C9C9C;
+            text-align: right;
+        }
+        .mir-logo {
+            color: #007AFF; /* Имитация лого МИР */
+            font-weight: bold;
+        }
+        
+        /* --- Нижнее Навигационное Меню --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            background-color: var(--tg-theme-secondary-bg-color, #F8F8F8);
+            border-top: 1px solid #D1D1D1;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+        }
+        .nav-item {
+            text-align: center;
+            color: #9C9C9C;
+            cursor: pointer;
+        }
+        .nav-item.active {
+            color: var(--tg-theme-text-color);
+            font-weight: 600;
+        }
+        .nav-icon {
+            font-size: 24px;
+        }
+
     </style>
 </head>
 <body>
 
-    <h1>Новые Задания</h1>
-
-    <div class="task-card">
-        <h3>Сделать фотографию: Фото дерева</h3>
-        <p>Стоимость: 520 ₽</p>
-        <button class="button-perform" onclick="performTask('photo_tree_520', 520)">
-            Выполнить
-        </button>
+    <div id="screen-tasks" class="content-section" style="display: block;">
+        <h2>Новые задания</h2>
+        <div class="task-list">
+            <div class="task-item">
+                <div class="task-info">
+                    <div class="task-title">Сделать фотографию</div>
+                    <div class="task-tool">Фото дерева • Сегодня 520 ₽ • ChatGPT</div>
+                </div>
+                <div class="task-detail-icon">→</div>
+            </div>
+            <div class="task-item">
+                <div class="task-info">
+                    <div class="task-title">Сделать фотографию</div>
+                    <div class="task-tool">Фото газона • Сегодня 640 ₽ • ChatGPT</div>
+                </div>
+                <div class="task-detail-icon">→</div>
+            </div>
+            <div class="task-item">
+                <div class="task-info">
+                    <div class="task-title">Сделать фотографию</div>
+                    <div class="task-tool">Фото книги • Сегодня 350 ₽ • VEOS V</div>
+                </div>
+                <div class="task-detail-icon">→</div>
+            </div>
+            </div>
+    </div>
+    
+    <div id="screen-wallet" style="display: none;">
+        <div class="header">
+            Кошелёк
+        </div>
+        <div class="wallet-header">
+            Баланс:
+            <div class="wallet-balance">8 950 ₽</div>
+            <span style="font-size: 20px;">👁️</span> </div>
+        
+        <div class="wallet-actions">
+            <div class="wallet-action-item" onclick="sendMoney()">
+                <div class="icon">↑</div>
+                Отправить
+            </div>
+            <div class="wallet-action-item" onclick="addMoney()">
+                <div class="icon">+</div>
+                Добавить реквизиты
+            </div>
+            <div class="wallet-action-item" onclick="settings()">
+                <div class="icon">...</div>
+                Настройки
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h3 style="margin-top: 20px;">Операции</h3>
+            <div class="transaction-list">
+                <div class="transaction-item">
+                    <div>
+                        <div class="transaction-amount" style="color: #4CAF50;">+ 8 950 ₽</div>
+                        <div class="transaction-info">7 авг. 12:46</div>
+                    </div>
+                    <div class="transaction-card">
+                        **** 2843<br><span class="mir-logo">МИР</span>
+                    </div>
+                </div>
+                <div class="transaction-item">
+                    <div>
+                        <div class="transaction-amount" style="color: #4CAF50;">+ 2 350 ₽</div>
+                        <div class="transaction-info">5 авг. 18:30</div>
+                    </div>
+                    <div class="transaction-card">
+                        **** 2843<br><span class="mir-logo">МИР</span>
+                    </div>
+                </div>
+                </div>
+        </div>
+        
+        <div class="action-button-large" onclick="initiateWithdrawal()" style="background-color: #007AFF;">
+            Запросить вывод
+        </div>
+    </div>
+    
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="showScreen('tasks')">
+            <div class="nav-icon">☰</div> </div>
+        <div class="nav-item" onclick="showScreen('home')">
+            <div class="nav-icon">🏠</div> </div>
+        <div class="nav-item" onclick="showScreen('wallet')">
+            <div class="nav-icon">💳</div> </div>
     </div>
 
     <script>
-        // Инициализация Web App
         const tg = window.Telegram.WebApp;
         tg.ready();
         
-        // Устанавливаем цвет фона (опционально, но рекомендуется)
-        // document.body.style.backgroundColor = tg.themeParams.bg_color;
-        
-        function performTask(taskId, amount) {
-            // Этап 1: Имитация модерации
-            alert("Идет загрузка фото и модерация...");
+        // --- Логика переключения экранов ---
+        function showScreen(screenName) {
+            document.getElementById('screen-tasks').style.display = 'none';
+            document.getElementById('screen-wallet').style.display = 'none';
             
-            // Имитация задержки (в реальном приложении это будет происходить на Backend)
-            setTimeout(() => {
-                
-                // Этап 2: Подготовка и отправка данных боту
-                const completionData = JSON.stringify({ 
-                    action: "task_complete", 
-                    task_id: taskId, 
-                    amount_earned: amount,
-                    timestamp: new Date().toISOString()
-                });
-                
-                // Отправляем данные боту. Бот получит их в своем обработчике message.web_app_data
-                tg.sendData(completionData);
-                
-                // Оповещение пользователя
-                alert(`🎉 Задание ${taskId} выполнено! Средства зачислены (имитация).`);
-                
-                // В реальном приложении здесь произойдет переход на экран "Кошелек"
-                // или закрытие/обновление Web App
-                
-            }, 3000); // 3 секунды имитации модерации
+            if (screenName === 'tasks') {
+                document.getElementById('screen-tasks').style.display = 'block';
+            } else if (screenName === 'wallet') {
+                document.getElementById('screen-wallet').style.display = 'block';
+            }
+            // Обновить активный статус в нижнем меню
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            // Здесь должна быть логика для установки класса 'active' на соответствующий элемент
         }
+        
+        // --- Имитация модерации (для кнопки "Выполнить" на экране деталей) ---
+        function performTask(taskId) {
+            // Скрыть текущий контент
+            document.body.innerHTML = `
+                <div style="text-align: center; padding-top: 100px;">
+                    <h2>Сделать фотографию</h2>
+                    <p style="font-size: 20px; color: #4CAF50;">520 ₽</p>
+                    <div style="margin-top: 50px;">
+                        <p>Фото на модерации...</p>
+                        </div>
+                </div>
+            `;
+            
+            // Имитация задержки и отправка данных боту
+            setTimeout(() => {
+                const completionData = JSON.stringify({ action: "task_complete", task_id: taskId });
+                tg.sendData(completionData);
+                // В реальном проекте, после успеха, Backend обновит баланс, 
+                // и Web App перенаправит на "Кошелек" или покажет успех.
+                alert("Задание выполнено и средства зачислены!");
+                window.location.reload(); // Перезагрузить для простоты
+            }, 5000); 
+        }
+
+        // --- Имитация запроса вывода ---
+        function initiateWithdrawal() {
+            alert("Запрос на вывод средств принят и обрабатывается...");
+            // Здесь должна быть отправка запроса на Backend и имитация списания
+        }
+        
+        // --- Адаптация темы Telegram ---
+        if (tg.themeParams) {
+            document.documentElement.style.setProperty('--tg-text-color', tg.themeParams.text_color);
+            document.documentElement.style.setProperty('--tg-bg-color', tg.themeParams.bg_color);
+            document.documentElement.style.setProperty('--tg-secondary-bg-color', tg.themeParams.secondary_bg_color);
+            document.documentElement.style.setProperty('--tg-button-color', tg.themeParams.button_color);
+            document.documentElement.style.setProperty('--tg-button-text-color', tg.themeParams.button_text_color);
+        }
+        
+        // При старте показываем экран Заданий
+        showScreen('tasks'); 
     </script>
 </body>
 </html>
