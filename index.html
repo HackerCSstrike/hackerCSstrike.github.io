@@ -6,9 +6,8 @@
     <title>WebXStudio: Задания</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* ================================================= */
-        /* ПЕРЕМЕННЫЕ И БАЗОВЫЕ СТИЛИ (MOBILE FIRST) */
-        /* ================================================= */
+        /* ... (Стили CSS остаются прежними для экономии места, за исключением блока .upload-area, который обновлен) ... */
+        
         :root {
             --tg-text-color: #000000;
             --tg-bg-color: #FFFFFF;
@@ -124,7 +123,6 @@
             display: flex;
             gap: 10px;
             margin: 15px 0;
-            /* Изменено для вертикального отображения полей ввода */
             flex-direction: column; 
         }
         .upload-area {
@@ -140,6 +138,7 @@
             cursor: pointer;
             transition: all 0.2s;
             box-sizing: border-box;
+            text-align: center;
         }
         .upload-area.uploaded {
             border: 2px solid var(--task-price-color);
@@ -148,6 +147,28 @@
         }
         .upload-icon { margin-right: 10px; font-size: 20px; }
 
+        /* --- Стили модального окна (для имитации выбора источника) --- */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; justify-content: center; align-items: flex-end;
+            z-index: 2000;
+        }
+        .modal-content {
+            background-color: var(--tg-theme-bg-color);
+            width: 100%; max-width: 400px; padding: 20px;
+            border-top-left-radius: 15px; border-top-right-radius: 15px;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .modal-option {
+            padding: 15px 0; text-align: center; font-size: 17px;
+            border-bottom: 1px solid var(--tg-theme-secondary-bg-color);
+            cursor: pointer;
+            color: var(--tg-theme-link-color);
+        }
+        .modal-option:last-child { border-bottom: none; }
+        .modal-title { font-weight: 600; font-size: 18px; margin-bottom: 10px; text-align: center;}
+        
         /* --- Стили кошелька --- */
         .wallet-balance-wrap { 
             text-align: center; 
@@ -230,12 +251,26 @@
             </div>
             
             <div class="task-filters">
-                <div class="filter-button active" onclick="filterTasks('all')">Все (5)</div>
+                <div class="filter-button active" onclick="filterTasks('all')">Все (6)</div>
                 <div class="filter-button" onclick="filterTasks('text')">Текстовые</div>
-                <div class="filter-button" onclick="filterTasks('ai')">ИИ</div>
+                <div class="filter-button" onclick="filterTasks('photo')">Фото/ИИ</div>
             </div>
             
             <div class="content-wrap task-list" id="task-list">
+                
+                <div class="task-item task-photo">
+                    <div class="task-left">
+                        <div class="task-icon">🌳</div> 
+                        <div class="task-info-main">
+                            <div class="task-title">Сделать фотографию</div>
+                            <div class="task-hint">520 ₽ • 3 дек. 2025</div>
+                        </div>
+                    </div>
+                    <button class="task-action-btn" onclick="openTaskDetails('photo_tree', 'Сделать фотографию', 520, 'photo', 'Сделать фотографию дерева, высота которого визуально будет больше, чем 3 метра. Фото должно быть вертикальным. Прикрепите фото.')">
+                        Выполнить
+                    </button>
+                </div>
+
                 <div class="task-item task-text">
                     <div class="task-left">
                         <div class="task-icon">✍️</div> 
@@ -244,7 +279,7 @@
                             <div class="task-hint">800 ₽ • 3 дек. 2025</div>
                         </div>
                     </div>
-                    <button class="task-action-btn" onclick="openTaskDetails('review', 'Написать небольшой отзыв о продукте', 800, 'Текстовые', 'Напишите небольшой, но развернутый отзыв о продукте (500-800 символов). Результат прикрепите в виде текстового файла или скриншота.')">
+                    <button class="task-action-btn" onclick="openTaskDetails('review', 'Написать небольшой отзыв о продукте', 800, 'text', 'Напишите небольшой, но развернутый отзыв о продукте (500-800 символов). Вставьте текст в поле ввода.')">
                         Выполнить
                     </button>
                 </div>
@@ -254,10 +289,10 @@
                         <div class="task-icon">🌐</div>
                         <div class="task-info-main">
                             <div class="task-title">Перевести текст</div>
-                            <div class="task-hint">550 ₽ • 3 дек. 2025</div>
+                            <div class="task-hint">550 ₽ • 2 дек. 2025</div>
                         </div>
                     </div>
-                    <button class="task-action-btn" onclick="openTaskDetails('translate', 'Перевести текст с англ. на рус.', 550, 'Текстовые', 'Переведите предоставленный англоязычный текст (около 1500 символов) на русский язык. Сдайте в формате .doc или скриншота перевода.')">
+                    <button class="task-action-btn" onclick="openTaskDetails('translate', 'Перевести текст с англ. на рус.', 550, 'text', 'Переведите предоставленный англоязычный текст (около 1500 символов) на русский язык. Вставьте переведенный текст.')">
                         Выполнить
                     </button>
                 </div>
@@ -270,37 +305,37 @@
                             <div class="task-hint">650 ₽ • 2 дек. 2025</div>
                         </div>
                     </div>
-                    <button class="task-action-btn" onclick="openTaskDetails('video_desc', 'Составить описание для YouTube', 650, 'Текстовые', 'Придумайте цепляющее SEO-оптимизированное описание для нового видео о бизнесе в IT. Требуемый объем: 300 слов. Прикрепите текстовым файлом.')">
+                    <button class="task-action-btn" onclick="openTaskDetails('video_desc', 'Составить описание для YouTube', 650, 'text', 'Придумайте цепляющее SEO-оптимизированное описание для нового видео о бизнесе в IT. Требуемый объем: 300 слов. Вставьте текст.')">
                         Выполнить
                     </button>
                 </div>
 
-                <div class="task-item task-ai">
+                <div class="task-item task-photo">
                     <div class="task-left">
                         <div class="task-icon">🤖</div>
                         <div class="task-info-main">
                             <div class="task-title">Сгенерировать логотип</div>
-                            <div class="task-hint">900 ₽ • 2 дек. 2025</div>
+                            <div class="task-hint">900 ₽ • 1 дек. 2025</div>
                         </div>
                     </div>
-                    <button class="task-action-btn" onclick="openTaskDetails('logo_gen', 'Сгенерировать логотип в Midjourney', 900, 'ИИ', 'Используя Midjourney, создайте 4 варианта логотипа для IT-агентства в стиле минимализм. Пришлите финальное изображение.')">
+                    <button class="task-action-btn" onclick="openTaskDetails('logo_gen', 'Сгенерировать логотип в Midjourney', 900, 'photo', 'Используя Midjourney, создайте 4 варианта логотипа для IT-агентства в стиле минимализм. Пришлите финальное изображение.')">
                         Выполнить
                     </button>
                 </div>
 
                 <div class="task-item task-text">
                     <div class="task-left">
-                        <div class="task-icon">❓</div>
+                        <div class="task-icon">👤</div>
                         <div class="task-info-main">
-                            <div class="task-title">Ответы на 10 вопросов</div>
-                            <div class="task-hint">480 ₽ • 1 дек. 2025</div>
+                            <div class="task-title">Приглашение</div>
+                            <div class="task-hint">350 ₽ • 1 дек. 2025</div>
                         </div>
                     </div>
-                    <button class="task-action-btn" onclick="openTaskDetails('qa', 'Ответы на вопросы', 480, 'Текстовые', 'Дайте краткие и точные ответы на 10 вопросов по теме разработки Telegram-ботов. Пришлите текстовым файлом или скриншотом.')">
+                    <button class="task-action-btn" onclick="openTaskDetails('new_user', 'Пригласить пользователя', 350, 'text', 'Напишите короткий, но убедительный текст-приглашение для нового пользователя в канал. Вставьте текст.')">
                         Выполнить
                     </button>
                 </div>
-
+                
             </div>
         </div>
 
@@ -319,17 +354,37 @@
 
                 <h4 id="upload-instruction" style="margin-bottom: 5px;">Прикрепите результат:</h4>
                 <div id="task-images-area" class="task-detail-images">
-                    <div id="upload-field" class="upload-area" onclick="simulateUpload()">
-                        <span class="upload-icon">📁</span>
-                        <span>Нажмите для имитации загрузки файла / скриншота</span>
+                    <div id="upload-field" class="upload-area" onclick="handleUploadClick()">
+                        <span class="upload-icon">❓</span>
+                        <span>Нажмите "ВЫПОЛНИТЬ" для начала...</span>
                     </div>
                 </div>
                 
                 <p style="font-size: 13px; color: var(--tg-theme-hint-color);">
-                    *Для завершения задания необходимо прикрепить файл/скриншот.
+                    *Для завершения задания необходимо прикрепить файл/скриншот/текст.
                 </p>
                 </div>
         </div>
+        
+        <div id="photo-modal" class="modal" onclick="closeModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                 <div class="modal-title">Выберите источник фото</div>
+                 <div class="modal-option" onclick="simulateUpload('Камера')">Камера</div>
+                 <div class="modal-option" onclick="simulateUpload('Галерея')">Галерея</div>
+                 <div class="modal-option" onclick="simulateUpload('Файлы')">Файлы</div>
+                 <div class="modal-option" style="color: var(--tg-theme-text-color);">Отмена</div>
+            </div>
+        </div>
+        
+        <div id="text-modal" class="modal" onclick="closeModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <div class="modal-title">Вставьте или введите текст</div>
+                <textarea id="text-input" style="width: 100%; height: 100px; padding: 10px; box-sizing: border-box; border: 1px solid var(--tg-theme-hint-color); border-radius: 8px; font-size: 15px; background-color: var(--tg-theme-secondary-bg-color); color: var(--tg-theme-text-color);" placeholder="Ваш результат..."></textarea>
+                <div class="modal-option" style="color: var(--tg-theme-button-color);" onclick="simulateTextUpload()">Подтвердить</div>
+                <div class="modal-option" style="color: var(--tg-theme-text-color);">Отмена</div>
+            </div>
+        </div>
+
 
         <div id="screen-wallet" class="app-screen" style="display: none;">
             <div class="header" style="justify-content: space-between; padding-right: 25px;">
@@ -372,7 +427,7 @@
                             <div class="nav-icon" style="margin-right: 10px; font-size: 18px; color: var(--tg-theme-link-color);">↑</div>
                             <div>
                                 <div class="transaction-amount-text">8 950 ₽</div>
-                                <div class="task-hint">7 авг. 12:46</div>
+                                <div class="task-hint">3 дек. 2025, 15:45</div>
                             </div>
                         </div>
                         <div class="transaction-card-info">
@@ -384,7 +439,7 @@
                             <div class="nav-icon" style="margin-right: 10px; font-size: 18px; color: var(--tg-theme-link-color);">↑</div>
                             <div>
                                 <div class="transaction-amount-text">2 350 ₽</div>
-                                <div class="task-hint">5 авг. 18:30</div>
+                                <div class="task-hint">2 дек. 2025, 18:30</div>
                             </div>
                         </div>
                         <div class="transaction-card-info">
@@ -396,19 +451,7 @@
                             <div class="nav-icon" style="margin-right: 10px; font-size: 18px; color: var(--tg-theme-link-color);">↑</div>
                             <div>
                                 <div class="transaction-amount-text">10 200 ₽</div>
-                                <div class="task-hint">1 авг. 12:12</div>
-                            </div>
-                        </div>
-                        <div class="transaction-card-info">
-                            **** 2843<br><span class="mir-logo">МИР</span>
-                        </div>
-                    </div>
-                    <div class="transaction-item">
-                        <div style="display: flex; align-items: center;">
-                            <div class="nav-icon" style="margin-right: 10px; font-size: 18px; color: var(--tg-theme-link-color);">↑</div>
-                            <div>
-                                <div class="transaction-amount-text">2 150 ₽</div>
-                                <div class="task-hint">30 июл. 17:22</div>
+                                <div class="task-hint">1 дек. 2025, 12:12</div>
                             </div>
                         </div>
                         <div class="transaction-card-info">
@@ -420,7 +463,7 @@
             </div>
 
         <div id="screen-moderation" class="app-screen" style="display: none; text-align: center; padding-top: 150px;">
-            <h2 id="moderation-status">Фото на модерации...</h2>
+            <h2 id="moderation-status">Результат на модерации...</h2>
             <p style="font-size: 20px;">⏳</p>
         </div>
         
@@ -452,7 +495,8 @@
         
         let currentTaskId = null; 
         let currentTaskPrice = 0;
-        let isFileUploaded = false; // Флаг для проверки загрузки
+        let currentTaskType = null; // 'photo' или 'text'
+        let isFileUploaded = false; 
         let currentBalance = 8950; 
         
         // --- Вспомогательная функция для форматирования денег ---
@@ -483,6 +527,14 @@
             }
         });
 
+        // --- Логика модальных окон ---
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('photo-modal').style.display = 'none';
+            document.getElementById('text-modal').style.display = 'none';
+        }
 
         // --- ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ (SPA) ---
         function showScreen(screenName) {
@@ -514,18 +566,18 @@
                     mainButton.show();
                 }
             } else if (screenName === 'details') {
-                // При входе на экран деталей, устанавливаем "ВЫПОЛНИТЬ"
                 mainButton.setText('ВЫПОЛНИТЬ');
-                mainButton.setParams({ is_active: true, is_visible: true });
+                mainButton.setParams({ is_active: true, is_visible: true, color: tg.themeParams.button_color || '#007AFF' });
                 // Сбрасываем поле загрузки
                 resetUploadField();
             } 
         }
 
         // --- ЛОГИКА ОТКРЫТИЯ ДЕТАЛЕЙ ЗАДАНИЯ ---
-        function openTaskDetails(id, title, price, tool, description) {
+        function openTaskDetails(id, title, price, type, description) {
             currentTaskId = id;
             currentTaskPrice = price;
+            currentTaskType = type; // Сохраняем тип задания
             
             document.getElementById('detail-title').innerText = title;
             document.getElementById('detail-price').innerText = formatCurrency(price);
@@ -549,7 +601,6 @@
                 }
             });
             
-            // Обновляем состояние фильтров
             document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
             const activeFilter = document.querySelector(`.filter-button[onclick="filterTasks('${category}')"]`);
             if (activeFilter) {
@@ -560,6 +611,15 @@
         
         // --- Шаг 1: Начинаем выполнение (кнопка "ВЫПОЛНИТЬ" -> Активация поля загрузки) ---
         function startExecution() {
+            const uploadField = document.getElementById('upload-field');
+            uploadField.onclick = handleUploadClick;
+            
+            if (currentTaskType === 'photo') {
+                uploadField.innerHTML = '<span class="upload-icon">📷</span><span>Нажмите, чтобы загрузить фото/скриншот</span>';
+            } else if (currentTaskType === 'text') {
+                uploadField.innerHTML = '<span class="upload-icon">📝</span><span>Нажмите, чтобы вставить текст</span>';
+            }
+            
             // Кнопка ВЫПОЛНИТЬ исчезает, появляется ЗАВЕРШИТЬ (но неактивная)
             mainButton.setText('ЗАВЕРШИТЬ');
             mainButton.setParams({ 
@@ -568,29 +628,63 @@
                 color: tg.themeParams.hint_color // Неактивный цвет
             }); 
             
-            alert('Задание начато! Теперь прикрепите результат.');
+            alert('Задание начато! Прикрепите результат через область загрузки.');
         }
 
-        // --- Имитация загрузки файла ---
-        function simulateUpload() {
-            const uploadField = document.getElementById('upload-field');
-            if (!isFileUploaded) {
-                 uploadField.innerHTML = '<span class="upload-icon">✅</span><span>Файл загружен (1.2 MB). Нажмите "ЗАВЕРШИТЬ"</span>';
-                 uploadField.classList.add('uploaded');
-                 isFileUploaded = true;
-
-                 // Активируем кнопку "ЗАВЕРШИТЬ"
-                 mainButton.setParams({
-                    is_active: true,
-                    color: tg.themeParams.button_color || '#007AFF'
-                 });
+        // --- Обработчик клика по области загрузки ---
+        function handleUploadClick() {
+            if (currentTaskType === 'photo') {
+                openModal('photo-modal');
+            } else if (currentTaskType === 'text') {
+                openModal('text-modal');
             }
+        }
+
+        // --- Имитация загрузки файла/фото (из модального окна фото) ---
+        function simulateUpload(source) {
+            closeModal();
+            const uploadField = document.getElementById('upload-field');
+            
+            uploadField.innerHTML = `<span class="upload-icon">✅</span><span>Файл загружен (${source}). Нажмите "ЗАВЕРШИТЬ"</span>`;
+            uploadField.classList.add('uploaded');
+            uploadField.onclick = null; // Отключаем повторный клик
+            isFileUploaded = true;
+
+            // Активируем кнопку "ЗАВЕРШИТЬ"
+             mainButton.setParams({
+                is_active: true,
+                color: tg.themeParams.button_color || '#007AFF'
+             });
+        }
+        
+        // --- Имитация загрузки текста (из модального окна текста) ---
+        function simulateTextUpload() {
+             const textInput = document.getElementById('text-input').value;
+             if (textInput.trim() === '') {
+                 alert('Пожалуйста, введите текст!');
+                 return;
+             }
+             
+             closeModal();
+             const uploadField = document.getElementById('upload-field');
+             
+             uploadField.innerHTML = '<span class="upload-icon">✅</span><span>Текст вставлен (готово к модерации).</span>';
+             uploadField.classList.add('uploaded');
+             uploadField.onclick = null; // Отключаем повторный клик
+             isFileUploaded = true;
+
+             // Активируем кнопку "ЗАВЕРШИТЬ"
+              mainButton.setParams({
+                 is_active: true,
+                 color: tg.themeParams.button_color || '#007AFF'
+              });
         }
 
         function resetUploadField() {
             const uploadField = document.getElementById('upload-field');
-            uploadField.innerHTML = '<span class="upload-icon">📁</span><span>Нажмите для имитации загрузки файла / скриншота</span>';
+            uploadField.innerHTML = '<span class="upload-icon">❓</span><span>Нажмите "ВЫПОЛНИТЬ" для начала...</span>';
             uploadField.classList.remove('uploaded');
+            uploadField.onclick = null;
             isFileUploaded = false;
         }
 
@@ -598,11 +692,10 @@
         // --- Шаг 2: Завершение и модерация (кнопка "ЗАВЕРШИТЬ") ---
         function finishTaskExecution() {
             if (!isFileUploaded) {
-                alert('Необходимо загрузить файл/скриншот перед завершением!');
+                alert('Необходимо загрузить результат перед завершением!');
                 return;
             }
             
-            // Имитация модерации
             showScreen('moderation');
             document.getElementById('moderation-status').innerText = 'Результат на модерации...';
             mainButton.hide();
@@ -639,8 +732,7 @@
                 document.getElementById('approval-status').innerText = `💸 Запрос на вывод ${formatCurrency(withdrawalAmount)} отправлен!`;
                 document.getElementById('approval-status').style.color = 'var(--tg-theme-text-color)';
                 
-                // Сброс баланса до 0
-                currentBalance = 0;
+                currentBalance = 0; // Сброс баланса
                 
                 tg.sendData(JSON.stringify({ 
                     action: "withdrawal_request", 
