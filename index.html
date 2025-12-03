@@ -260,12 +260,41 @@
             background-position: center;
         }
         
-        /* Позиции икон */
-        .circle-item:nth-child(2) { top: 10px; left: 50px; animation-delay: 0s; background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/ea/Boat_icon.svg'); }
-        .circle-item:nth-child(3) { top: 30px; right: 20px; animation-delay: 1s; background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg');}
-        .circle-item:nth-child(4) { bottom: 40px; right: 30px; animation-delay: 2s; background-image: url('https://freeimage.host/i/fIHQtmg'); background-color: #007AFF; background-size: 80%;}
-        .circle-item:nth-child(5) { bottom: 10px; left: 40px; animation-delay: 3s; background-image: url('https://cdn-icons-png.flaticon.com/512/3673/3673105.png'); }
-        .circle-item:nth-child(6) { top: 70px; left: 10px; animation-delay: 4s; background-image: url('https://cdn-icons-png.flaticon.com/512/3063/3063165.png'); }
+        /* Позиции икон (ОБНОВЛЕНО ПОЛЬЗОВАТЕЛЕМ) */
+        /* ВНИМАНИЕ: nth-child(1) - это центральный lottie-icon, поэтому начинаем с (2) */
+        
+        /* 1. ЛОДКА (Sailing) - ВАША ИКОНКА 1 */
+        .circle-item:nth-child(2) { 
+            top: 10px; left: 50px; animation-delay: 0s;
+            background-image: url('https://avatars.mds.yandex.net/i?id=65552bd6636ba7cef3b635ed6fcf995103df8ffc-2469813-images-thumbs&n=13'); 
+        }
+        
+        /* 2. CHATGPT - ВАША ИКОНКА 2 */
+        .circle-item:nth-child(3) { 
+            top: 30px; right: 20px; animation-delay: 1s;
+            background-image: url('https://avatars.mds.yandex.net/i?id=1b626eed0c89889b68153bf578e0860964743e76-4219822-images-thumbs&n=13');
+        }
+        
+        /* 3. КИТ (Blue Whale/Dolphin) - ВАША ИКОНКА 3 */
+        .circle-item:nth-child(4) { 
+            bottom: 40px;
+            right: 30px;
+            animation-delay: 2s;
+            background-image: url('https://avatars.mds.yandex.net/i?id=ebf169d41433e2d2c1be2081881ca1a3ee4bff2b-4600463-images-thumbs&n=13');
+            background-size: 80%;
+        }
+
+        /* 4. ИКОНКА 4 */
+        .circle-item:nth-child(5) { 
+            bottom: 10px; left: 40px; animation-delay: 3s; 
+            background-image: url('https://avatars.mds.yandex.net/i?id=ec3f3a85560aa891621d0b7de06b130dec700313-5480663-images-thumbs&n=13'); 
+        }
+        
+        /* 5. ИКОНКА 5 */
+        .circle-item:nth-child(6) { 
+            top: 70px; left: 10px; animation-delay: 4s;
+            background-image: url('https://avatars.mds.yandex.net/i?id=b55adaff5419e5f601e836d756843795ece7f587-8552056-images-thumbs&n=13'); 
+        }
 
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
