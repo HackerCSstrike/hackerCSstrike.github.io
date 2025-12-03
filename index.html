@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>WebXStudio: Задания</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
     <style>
-        /* ... (Стили CSS остаются прежними для экономии места, за исключением блока .upload-area, который обновлен) ... */
-        
+        /* ================================================= */
+        /* СТИЛИ */
+        /* ================================================= */
         :root {
             --tg-text-color: #000000;
             --tg-bg-color: #FFFFFF;
@@ -16,8 +18,8 @@
             --tg-link-color: #007AFF;
             --tg-button-color: #007AFF; 
             --tg-button-text-color: #FFFFFF;
-            --task-price-color: #4CAF50; /* Зеленый для цен */
-            --mir-logo-color: #FF7B00; /* Цвет для МИР */
+            --task-price-color: #4CAF50; 
+            --mir-logo-color: #FF7B00;
         }
 
         body {
@@ -32,7 +34,6 @@
             min-height: 100vh;
         }
         
-        /* Глобальные стили для заголовков, стрелок и отступов */
         .header {
             display: flex;
             align-items: center;
@@ -51,7 +52,6 @@
             padding: 0 15px;
         }
 
-        /* --- Фильтры --- */
         .task-filters {
             display: flex;
             overflow-x: scroll;
@@ -78,7 +78,6 @@
             color: var(--tg-theme-text-color, var(--tg-text-color));
         }
 
-        /* --- Стили списка заданий --- */
         .task-item {
             display: flex;
             align-items: center;
@@ -112,7 +111,6 @@
             margin-left: 15px;
         }
 
-        /* --- Стили деталей задания --- */
         .task-detail-price {
             font-size: 40px;
             font-weight: 700;
@@ -147,7 +145,6 @@
         }
         .upload-icon { margin-right: 10px; font-size: 20px; }
 
-        /* --- Стили модального окна (для имитации выбора источника) --- */
         .modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
@@ -169,7 +166,6 @@
         .modal-option:last-child { border-bottom: none; }
         .modal-title { font-weight: 600; font-size: 18px; margin-bottom: 10px; text-align: center;}
         
-        /* --- Стили кошелька --- */
         .wallet-balance-wrap { 
             text-align: center; 
             padding: 20px 0 10px 0; 
@@ -225,7 +221,6 @@
         }
         .mir-logo { color: var(--mir-logo-color); font-weight: bold; }
 
-        /* --- Нижнее Навигационное Меню --- */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%;
             display: flex; justify-content: space-around; align-items: center;
@@ -238,11 +233,152 @@
         }
         .nav-item.active { color: var(--tg-theme-text-color); font-weight: 600; }
         .nav-icon { font-size: 24px; }
+        
+        /* ================================================= */
+        /* ОНБОРДИНГ СТИЛИ (ОБНОВЛЕНО: Используем ваши фото) */
+        /* ================================================= */
+        #onboarding-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--tg-theme-bg-color); 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.6s;
+        }
+        .logo-circle {
+            width: 240px;
+            height: 240px;
+            position: relative;
+            margin-bottom: 50px;
+        }
+        
+        .lottie-icon {
+            /* Контейнер для центральной Lottie-анимации */
+            position: absolute;
+            width: 76px;
+            height: 76px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Общий стиль для всех летающих иконок */
+        .circle-item {
+            position: absolute;
+            width: 76px;
+            height: 76px;
+            border-radius: 18px;
+            background: var(--tg-theme-bg-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            animation: float 7s infinite ease-in-out;
+            
+            /* Стили для изображений */
+            background-size: 70%; 
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        /* ВНИМАНИЕ: nth-child(1) - это центральный lottie-icon, поэтому начинаем с (2) */
+
+        /* 1. ЛОДКА (Sailing) - ВАША ИКОНКА 1 */
+        .circle-item:nth-child(2) { 
+            top: 10px; left: 50px; animation-delay: 0s;
+            /* === ЗАМЕНИТЕ ЭТОТ URL НА СВОЙ === */
+            background-image: url('https://avatars.mds.yandex.net/i?id=65552bd6636ba7cef3b635ed6fcf995103df8ffc-2469813-images-thumbs&n=13'); 
+        }
+        
+        /* 2. CHATGPT - ВАША ИКОНКА 2 */
+        .circle-item:nth-child(3) { 
+            top: 30px; right: 20px; animation-delay: 1s;
+            /* === ЗАМЕНИТЕ ЭТОТ URL НА СВОЙ === */
+            background-image: url('https://avatars.mds.yandex.net/i?id=1b626eed0c89889b68153bf578e0860964743e76-4219822-images-thumbs&n=13');
+        }
+        
+        /* 3. КИТ (Blue Whale/Dolphin) - ВАША ИКОНКА 3 */
+        .circle-item:nth-child(4) { 
+            bottom: 40px;
+            right: 30px;
+            animation-delay: 2s;
+            /* === ЗАМЕНИТЕ ЭТОТ URL НА СВОЙ (иконка робота/кита) === */
+            background-image: url('https://avatars.mds.yandex.net/i?id=ebf169d41433e2d2c1be2081881ca1a3ee4bff2b-4600463-images-thumbs&n=13');
+            background-size: 80%;
+            /* background-color: #007AFF; /* УБРАНО: цвет фона */
+        }
+
+        
+        /* 4. ИКОНКА 4 */
+        .circle-item:nth-child(5) { 
+            bottom: 10px; left: 40px; animation-delay: 3s; 
+            /* === ЗАМЕНИТЕ ЭТОТ URL НА СВОЙ === */
+            background-image: url('https://avatars.mds.yandex.net/i?id=ec3f3a85560aa891621d0b7de06b130dec700313-5480663-images-thumbs&n=13'); 
+        }
+        
+        /* 5. ИКОНКА 5 */
+        .circle-item:nth-child(6) { 
+            top: 70px; left: 10px; animation-delay: 4s;
+            /* === ЗАМЕНИТЕ ЭТОТ URL НА СВОЙ === */
+            background-image: url('https://avatars.mds.yandex.net/i?id=b55adaff5419e5f601e836d756843795ece7f587-8552056-images-thumbs&n=13'); 
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(8deg); }
+        }
+
+        .onboarding-title {
+            font-size: 32px;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(90deg, var(--tg-theme-link-color), var(--task-price-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            margin-bottom: 16px;
+        }
+        .onboarding-subtitle {
+            font-size: 18px;
+            color: var(--tg-theme-hint-color);
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .onboarding-btn {
+            background: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border: none;
+            border-radius: 16px;
+            padding: 18px 70px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+        .onboarding-btn:active { transform: scale(0.95); }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     </style>
 </head>
 <body>
 
-    <div id="app-container">
+    <div id="onboarding-screen">
+        <div class="logo-circle">
+            <div id="center-lottie" class="lottie-icon"></div>
+            <div class="circle-item"></div> 
+            <div class="circle-item"></div>
+            <div class="circle-item"></div>
+            <div class="circle-item"></div>
+            <div class="circle-item"></div> 
+        </div>
+        <div class="onboarding-title">WebXStudio</div>
+        <div class="onboarding-subtitle">Выполняй задания — зарабатывай реальные деньги</div>
+        <button class="onboarding-btn" onclick="closeOnboarding()">Начать</button>
+    </div>
+
+    <div id="app-container" style="display: none;">
         
         <div id="screen-tasks" class="app-screen">
             <div class="header" style="justify-content: space-between; padding-right: 25px;">
@@ -297,7 +433,7 @@
                     </button>
                 </div>
 
-                 <div class="task-item task-text">
+                <div class="task-item task-text">
                     <div class="task-left">
                         <div class="task-icon">🎥</div>
                         <div class="task-info-main">
@@ -363,7 +499,7 @@
                 <p style="font-size: 13px; color: var(--tg-theme-hint-color);">
                     *Для завершения задания необходимо прикрепить файл/скриншот/текст.
                 </p>
-                </div>
+            </div>
         </div>
         
         <div id="photo-modal" class="modal" onclick="closeModal()">
@@ -385,7 +521,6 @@
             </div>
         </div>
 
-
         <div id="screen-wallet" class="app-screen" style="display: none;">
             <div class="header" style="justify-content: space-between; padding-right: 25px;">
                  Кошелёк
@@ -401,7 +536,7 @@
                             &#128065;
                         </span>
                     </span>
-                </span>
+                </div>
             </div>
             
             <div class="wallet-actions">
@@ -460,7 +595,7 @@
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
 
         <div id="screen-moderation" class="app-screen" style="display: none; text-align: center; padding-top: 150px;">
             <h2 id="moderation-status">Результат на модерации...</h2>
@@ -474,7 +609,7 @@
 
     </div>
     
-    <div class="bottom-nav">
+    <div class="bottom-nav" style="display: none;">
         <div id="nav-tasks" class="nav-item active" onclick="showScreen('tasks')">
             <div class="nav-icon">☰</div>
             <div>Задания</div>
@@ -499,10 +634,9 @@
         let isFileUploaded = false; 
         let currentBalance = 8950; 
         
-        // --- Вспомогательная функция для форматирования денег ---
         const formatCurrency = (amount) => `${amount.toLocaleString('ru-RU')} ₽`;
 
-        // --- Инициализация и Адаптация Темы ---
+        // === ИНИЦИАЛИЗАЦИЯ TG И ТЕМЫ ===
         tg.ready();
         
         if (tg.themeParams) {
@@ -514,6 +648,47 @@
         function updateBalanceUI() {
             document.getElementById('wallet-balance-value').innerText = formatCurrency(currentBalance);
         }
+
+        // === LOTTIE АНИМАЦИИ И ОНБОРДИНГ ===
+        // Оставлен только URL для центральной анимации
+        const lottieUrls = [
+            "https://cdn.lottiefiles.com/packages/lf20_6CqhC0.json", // Письмо/Конверт (Центр)
+        ];
+        
+        function loadLottie(container, url, speed = 1) {
+            lottie.loadAnimation({
+                container: container,
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: url
+            }).setSpeed(speed);
+        }
+
+        function initLottie() {
+            // Загружаем только центральный элемент
+            loadLottie(document.getElementById('center-lottie'), lottieUrls[0], 0.8); 
+            
+            // !!! БОКОВЫЕ ЭЛЕМЕНТЫ ТЕПЕРЬ ЗАГРУЖАЮТСЯ ЧЕРЕЗ CSS !!!
+        }
+
+        function closeOnboarding() {
+            const onboarding = document.getElementById('onboarding-screen');
+            onboarding.style.animation = 'fadeOut 0.3s forwards';
+            
+            // Показываем основной контент и навигацию
+            document.getElementById('app-container').style.display = 'block';
+            document.querySelector('.bottom-nav').style.display = 'flex';
+            
+            setTimeout(() => {
+                onboarding.style.display = 'none';
+                showScreen('tasks'); // После онбординга показываем задания
+            }, 300);
+        }
+        
+        // Запускаем Lottie при загрузке
+        window.onload = initLottie;
+
 
         // --- ОБРАБОТЧИК ГЛАВНОЙ КНОПКИ (УНИВЕРСАЛЬНЫЙ) ---
         mainButton.onClick(() => {
@@ -563,12 +738,11 @@
                 updateBalanceUI();
                 if (currentBalance > 0) {
                     mainButton.setText('ЗАПРОСИТЬ ВЫВОД');
-                    mainButton.show();
+                    mainButton.setParams({ is_active: true, is_visible: true, color: tg.themeParams.button_color || '#007AFF' });
                 }
             } else if (screenName === 'details') {
                 mainButton.setText('ВЫПОЛНИТЬ');
                 mainButton.setParams({ is_active: true, is_visible: true, color: tg.themeParams.button_color || '#007AFF' });
-                // Сбрасываем поле загрузки
                 resetUploadField();
             } 
         }
@@ -577,7 +751,8 @@
         function openTaskDetails(id, title, price, type, description) {
             currentTaskId = id;
             currentTaskPrice = price;
-            currentTaskType = type; // Сохраняем тип задания
+            // Тип задания: 'photo' (старые/ии) или 'text' (новые)
+            currentTaskType = (type === 'Текстовые') ? 'text' : 'photo'; 
             
             document.getElementById('detail-title').innerText = title;
             document.getElementById('detail-price').innerText = formatCurrency(price);
@@ -593,7 +768,13 @@
             let count = 0;
 
             tasks.forEach(task => {
-                if (category === 'all' || task.classList.contains(`task-${category}`)) {
+                const isText = task.classList.contains(`task-text`);
+                const isPhoto = task.classList.contains(`task-photo`) || task.classList.contains(`task-ai`);
+
+                if (category === 'all' || 
+                    (category === 'text' && isText) ||
+                    (category === 'photo' && isPhoto)) 
+                {
                     task.style.display = 'flex';
                     count++;
                 } else {
@@ -609,7 +790,7 @@
             }
         }
         
-        // --- Шаг 1: Начинаем выполнение (кнопка "ВЫПОЛНИТЬ" -> Активация поля загрузки) ---
+        // --- Шаг 1: Начинаем выполнение ---
         function startExecution() {
             const uploadField = document.getElementById('upload-field');
             uploadField.onclick = handleUploadClick;
@@ -620,12 +801,11 @@
                 uploadField.innerHTML = '<span class="upload-icon">📝</span><span>Нажмите, чтобы вставить текст</span>';
             }
             
-            // Кнопка ВЫПОЛНИТЬ исчезает, появляется ЗАВЕРШИТЬ (но неактивная)
             mainButton.setText('ЗАВЕРШИТЬ');
             mainButton.setParams({ 
-                is_active: false, // Изначально неактивна, пока не загружен файл
+                is_active: false,
                 is_visible: true,
-                color: tg.themeParams.hint_color // Неактивный цвет
+                color: tg.themeParams.hint_color
             }); 
             
             alert('Задание начато! Прикрепите результат через область загрузки.');
@@ -636,32 +816,33 @@
             if (currentTaskType === 'photo') {
                 openModal('photo-modal');
             } else if (currentTaskType === 'text') {
+                 // Сбрасываем поле ввода текста перед открытием
+                document.getElementById('text-input').value = '';
                 openModal('text-modal');
             }
         }
 
-        // --- Имитация загрузки файла/фото (из модального окна фото) ---
+        // --- Имитация загрузки файла/фото ---
         function simulateUpload(source) {
             closeModal();
             const uploadField = document.getElementById('upload-field');
             
             uploadField.innerHTML = `<span class="upload-icon">✅</span><span>Файл загружен (${source}). Нажмите "ЗАВЕРШИТЬ"</span>`;
             uploadField.classList.add('uploaded');
-            uploadField.onclick = null; // Отключаем повторный клик
+            uploadField.onclick = null;
             isFileUploaded = true;
 
-            // Активируем кнопку "ЗАВЕРШИТЬ"
-             mainButton.setParams({
+            mainButton.setParams({
                 is_active: true,
                 color: tg.themeParams.button_color || '#007AFF'
              });
         }
         
-        // --- Имитация загрузки текста (из модального окна текста) ---
+        // --- Имитация загрузки текста ---
         function simulateTextUpload() {
              const textInput = document.getElementById('text-input').value;
-             if (textInput.trim() === '') {
-                 alert('Пожалуйста, введите текст!');
+             if (textInput.trim().length < 50) { // Проверка минимальной длины
+                 alert('Пожалуйста, введите более развернутый текст (минимум 50 символов)!');
                  return;
              }
              
@@ -670,10 +851,9 @@
              
              uploadField.innerHTML = '<span class="upload-icon">✅</span><span>Текст вставлен (готово к модерации).</span>';
              uploadField.classList.add('uploaded');
-             uploadField.onclick = null; // Отключаем повторный клик
+             uploadField.onclick = null;
              isFileUploaded = true;
 
-             // Активируем кнопку "ЗАВЕРШИТЬ"
               mainButton.setParams({
                  is_active: true,
                  color: tg.themeParams.button_color || '#007AFF'
@@ -689,7 +869,7 @@
         }
 
 
-        // --- Шаг 2: Завершение и модерация (кнопка "ЗАВЕРШИТЬ") ---
+        // --- Шаг 2: Завершение и модерация ---
         function finishTaskExecution() {
             if (!isFileUploaded) {
                 alert('Необходимо загрузить результат перед завершением!');
@@ -732,7 +912,7 @@
                 document.getElementById('approval-status').innerText = `💸 Запрос на вывод ${formatCurrency(withdrawalAmount)} отправлен!`;
                 document.getElementById('approval-status').style.color = 'var(--tg-theme-text-color)';
                 
-                currentBalance = 0; // Сброс баланса
+                currentBalance = 0; 
                 
                 tg.sendData(JSON.stringify({ 
                     action: "withdrawal_request", 
@@ -756,8 +936,6 @@
             }
         }
 
-        // Убедиться, что при открытии отображается правильный экран
-        showScreen('tasks'); 
     </script>
 </body>
 </html>
