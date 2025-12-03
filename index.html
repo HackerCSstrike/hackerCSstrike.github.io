@@ -26,7 +26,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
-            padding: 0 0 70px 0;
+            padding: 0 0 70px 0; /* Отступ для нижней навигации */
             background-color: var(--tg-theme-bg-color, var(--tg-bg-color));
             color: var(--tg-theme-text-color, var(--tg-text-color));
             overflow-x: hidden;
@@ -35,6 +35,13 @@
             min-height: 100vh;
         }
         
+        /* Главный контейнер для всех экранов, кроме онбординга */
+        #app-container {
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        /* Общие стили заголовка */
         .header {
             display: flex;
             align-items: center;
@@ -42,6 +49,10 @@
             font-size: 17px;
             font-weight: 600;
             line-height: 22px;
+            background-color: var(--tg-theme-bg-color, var(--tg-bg-color));
+            position: sticky;
+            top: 0;
+            z-index: 50; 
         }
         .back-arrow {
             font-size: 24px;
@@ -87,6 +98,10 @@
             justify-content: space-between;
             padding: 12px 0;
             border-bottom: 1px solid var(--tg-theme-secondary-bg-color, #EFEFEF);
+        }
+        .task-left {
+             display: flex;
+             align-items: center;
         }
         .task-icon {
             width: 40px; height: 40px; border-radius: 8px;
@@ -142,7 +157,6 @@
             background-color: rgba(76, 175, 80, 0.1);
             color: var(--task-price-color);
         }
-        .upload-icon { margin-right: 10px; font-size: 20px; }
 
         /* --- Стили кошелька --- */
         .wallet-balance-wrap { 
@@ -210,6 +224,7 @@
         }
         .nav-item {
             flex: 1; text-align: center; color: var(--tg-theme-hint-color); padding: 5px 0;
+            cursor: pointer;
         }
         .nav-item.active { color: var(--tg-theme-text-color); font-weight: 600; }
         .nav-icon { font-size: 24px; }
@@ -278,6 +293,29 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        
+        /* Скрываем все экраны, кроме активного */
+        .app-screen {
+            display: none;
+            min-height: calc(100vh - 60px); /* Вычитаем высоту nav-bar */
+        }
+
+        /* Общие стили для экранов "Модерация" и "Одобрение" */
+        .full-screen-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--tg-theme-bg-color, var(--tg-bg-color));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 1001; /* Выше nav bar */
+            animation: fadeIn 0.3s;
+        }
     </style>
 </head>
 <body>
@@ -390,10 +428,11 @@
                     </button>
                 </div>
                 
+                <div style="height: 20px;"></div> 
             </div>
         </div>
 
-        <div id="screen-details" class="app-screen" style="display: none;">
+        <div id="screen-details" class="app-screen">
             <div class="header">
                 <span class="back-arrow" onclick="showScreen('tasks')">←</span>
                 <span id="detail-title"></span>
@@ -433,7 +472,7 @@
             </div>
         </div>
         
-        <div id="screen-wallet" class="app-screen" style="display: none;">
+        <div id="screen-wallet" class="app-screen">
             <div class="header" style="justify-content: space-between; padding-right: 25px;">
                  Кошелёк
                  <span style="font-size: 20px;"></span>
@@ -442,7 +481,7 @@
             <div class="wallet-balance-wrap">
                 Баланс:
                 <div id="wallet-balance-value" class="wallet-balance">8 950 ₽</div>
-                <span style="font-size: 20px; cursor: pointer;">
+                <div style="font-size: 20px; cursor: pointer;">
                     <span class="icon">
                         <span style="font-weight: 500; font-size: 20px;" onclick="toggleBalanceVisibility()">
                             &#128065;
@@ -506,17 +545,8 @@
                         </div>
                     </div>
                 </div>
+                <div style="height: 20px;"></div> 
             </div>
-        </div>
-
-        <div id="screen-moderation" class="app-screen" style="display: none; text-align: center; padding-top: 150px;">
-            <h2 id="moderation-status">Результат на модерации...</h2>
-            <p style="font-size: 20px;">⏳</p>
-        </div>
-        
-         <div id="screen-approval" class="app-screen" style="display: none; text-align: center; padding-top: 150px;">
-            <h2 id="approval-status" style="color: var(--task-price-color);"></h2>
-            <p style="font-size: 20px;">Средства зачислены на Ваш баланс.</p>
         </div>
 
     </div>
@@ -534,6 +564,16 @@
             <div class="nav-icon">💳</div>
             <div>Кошелек</div>
         </div>
+    </div>
+    
+    <div id="screen-moderation" class="full-screen-message" style="display: none;">
+        <h2 id="moderation-status">Результат на модерации...</h2>
+        <p style="font-size: 50px;">⏳</p>
+    </div>
+    
+    <div id="screen-approval" class="full-screen-message" style="display: none;">
+        <h2 id="approval-status" style="color: var(--task-price-color);"></h2>
+        <p style="font-size: 20px;">Средства зачислены на Ваш баланс.</p>
     </div>
 
     <script>
@@ -617,9 +657,14 @@
                  return;
             }
 
+            // Скрываем все основные экраны
             document.querySelectorAll('.app-screen').forEach(screen => {
                 screen.style.display = 'none';
             });
+            // Скрываем экраны модерации/одобрения, которые могут быть активны
+            document.getElementById('screen-moderation').style.display = 'none';
+            document.getElementById('screen-approval').style.display = 'none';
+            
             mainButton.hide();
 
             const screenElement = document.getElementById(`screen-${screenName}`);
@@ -652,7 +697,6 @@
                 });
                 resetUploadField();
             } else if (screenName === 'tasks') {
-                // Убедимся, что фильтры правильно отображаются при возвращении
                 filterTasks('all'); 
             }
         }
@@ -721,7 +765,8 @@
                 textInput.style.display = 'block';
                 // Активация кнопки при вводе текста (имитация загрузки)
                 textInput.oninput = () => {
-                     const isValid = textInput.value.trim().length > 20;
+                     // Условие: текст должен быть длиннее 20 символов для имитации "загрузки"
+                     const isValid = textInput.value.trim().length > 20; 
                      isFileUploaded = isValid;
                      mainButton.setParams({
                          is_active: isValid,
@@ -783,29 +828,33 @@
             uploadField.classList.remove('uploaded');
             uploadField.onclick = null;
             textInput.style.display = 'none';
+            textInput.value = '';
             textInput.oninput = null;
             isFileUploaded = false;
         }
 
         // --- Шаг 2: Завершение и модерация ---
         function finishTaskExecution() {
-            const textInput = document.getElementById('text-input');
-            
             if (!isFileUploaded) {
-                 alert('Сначала прикрепите результат!');
+                 tg.showAlert('Сначала прикрепите результат!');
                  return;
             }
 
-            showScreen('moderation');
+            // Показываем экран модерации
+            document.getElementById('screen-moderation').style.display = 'flex'; 
             document.getElementById('moderation-status').innerText = 'Результат на модерации...';
             mainButton.hide();
 
+            // Имитация ожидания
             setTimeout(() => {
                 currentBalance += currentTaskPrice;
                 
-                showScreen('approval'); 
+                // Показываем экран одобрения
+                document.getElementById('screen-moderation').style.display = 'none';
+                document.getElementById('screen-approval').style.display = 'flex'; 
                 document.getElementById('approval-status').innerText = `✅ Задание одобрено! (+${formatCurrency(currentTaskPrice)})`;
                 document.getElementById('approval-status').style.color = 'var(--task-price-color)';
+                document.querySelector('#screen-approval p').innerText = 'Средства зачислены на Ваш баланс.'; // Сброс текста
 
                 tg.sendData(JSON.stringify({ 
                     action: "task_approved", 
@@ -814,6 +863,7 @@
                 })); 
 
                 setTimeout(() => {
+                    document.getElementById('screen-approval').style.display = 'none'; 
                     showScreen('wallet');
                 }, 2000); 
             }, 3000); 
@@ -826,14 +876,18 @@
                  return;
             }
 
-            showScreen('moderation');
+            // Показываем экран модерации (для запроса)
+            document.getElementById('screen-moderation').style.display = 'flex'; 
             document.getElementById('moderation-status').innerText = 'Запрос на вывод обрабатывается...';
             mainButton.hide();
             
             const withdrawalAmount = currentBalance; 
 
+            // Имитация ожидания
             setTimeout(() => {
-                showScreen('approval');
+                // Показываем экран одобрения (для подтверждения вывода)
+                document.getElementById('screen-moderation').style.display = 'none';
+                document.getElementById('screen-approval').style.display = 'flex'; 
                 document.getElementById('approval-status').innerText = `💸 Запрос на вывод ${formatCurrency(withdrawalAmount)} отправлен!`;
                 document.getElementById('approval-status').style.color = 'var(--tg-theme-text-color)';
                 document.querySelector('#screen-approval p').innerText = 'Средства поступят в течение 3 рабочих дней.';
@@ -847,7 +901,7 @@
                 }));
                 
                 setTimeout(() => {
-                    document.querySelector('#screen-approval p').innerText = 'Средства зачислены на Ваш баланс.'; // Возврат дефолтного текста
+                    document.getElementById('screen-approval').style.display = 'none';
                     showScreen('wallet');
                 }, 2000); 
             }, 4000); 
