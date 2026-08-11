@@ -163,6 +163,22 @@
     .adv-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
     .adv{padding:23px;background:#fff;border:1px solid var(--line);border-radius:20px;transition:.3s}.adv:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(31,38,65,.07)}.adv-icon{font-size:22px;margin-bottom:45px}.adv h3{font-size:17px;margin:0 0 8px}.adv p{font-size:13px;line-height:1.5;color:var(--muted);margin:0}
 
+    /* STATS */
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    .stat{padding:28px 22px;background:#171d2b;border-radius:22px;color:#fff;text-align:center}
+    .stat b{display:block;font-size:34px;letter-spacing:-.03em;background:linear-gradient(135deg,#fff,#bdb8ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .stat span{display:block;margin-top:6px;font-size:12.5px;color:#aeb5c6;font-weight:600;line-height:1.4}
+
+    /* REVIEWS */
+    .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .review{padding:26px;background:#fff;border:1px solid var(--line);border-radius:20px;display:flex;flex-direction:column;gap:14px;transition:.3s}
+    .review:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(31,38,65,.07)}
+    .review-top{display:flex;justify-content:space-between;align-items:center}
+    .review-stars{color:#f5a623;font-size:13px;letter-spacing:2px}
+    .review-src{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:var(--bg);border:1px solid var(--line);padding:4px 9px;border-radius:999px}
+    .review p{margin:0;font-size:14px;line-height:1.6;color:var(--ink);flex:1}
+    .review-name{font-size:12.5px;font-weight:700;color:var(--muted)}
+
     .cta{padding-bottom:110px!important}
     .cta-box{background:#171d2b;color:#fff;border-radius:34px;padding:55px;display:grid;grid-template-columns:1fr .95fr;gap:55px;position:relative;overflow:hidden}
     .cta-box:before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;right:-160px;top:-190px;background:radial-gradient(circle,rgba(122,112,255,.35),transparent 65%)}
@@ -172,11 +188,14 @@
     @media(max-width:900px){
       .hero{padding-top:45px;min-height:auto}.hero__grid{grid-template-columns:1fr;gap:25px}.hero-art{height:440px}.target-grid{grid-template-columns:1fr 1fr}.adv-grid{grid-template-columns:repeat(3,1fr)}.steps{grid-template-columns:1fr 1fr}.step{border-bottom:1px solid var(--line)}.subjects-wrap,.cta-box{grid-template-columns:1fr}.cta-box{padding:38px}
       .nav{gap:16px}.brand__subtitle{max-width:180px}
+      .stats-grid{grid-template-columns:1fr 1fr}.reviews-grid{grid-template-columns:1fr 1fr}
     }
     @media(max-width:700px){
       .nav{display:none}.header__cta{padding:10px 14px}
     }
     @media(max-width:600px){
+      .stats-grid{grid-template-columns:1fr 1fr;gap:12px}.stat{padding:20px 14px}.stat b{font-size:26px}
+      .reviews-grid{grid-template-columns:1fr}
       .container{width:min(100% - 28px,1160px)}section:not(.hero){padding:76px 0}h1{font-size:48px}.hero__lead{font-size:17px}.actions .btn{width:100%}.hero-art{height:350px}.dashboard{width:94%}.fc1{right:-8px}.fc2{left:-8px}.target-grid,.subjects-wrap,.steps,.adv-grid{grid-template-columns:1fr}.target{min-height:200px}.target h3{margin-top:35px}.step{border-left:0}.section-head{display:block}.section-desc{margin-top:15px}.cta-box{border-radius:26px;padding:30px 22px}.cta-box h2{font-size:37px}.dash-bottom{gap:6px}.mini{padding:10px}.mini b{font-size:15px}
       .header {
         padding: 16px 0;
@@ -199,6 +218,7 @@
 </head>
 <body>
 
+<header class="header">
 
 
 <section class="hero">
@@ -284,6 +304,41 @@
   </div>
 </section>
 
+<section id="results">
+  <div class="container">
+    <div class="section-head reveal"><div><div class="section-kicker">О репетиторе</div><h2>4 года подготовки к ОГЭ и ЕГЭ</h2></div><p class="section-desc">Диплом по Информационной Безопасности, личный результат ЕГЭ 92 балла по информатике — и понимание экзамена изнутри.</p></div>
+    <div class="stats-grid">
+      <article class="stat reveal"><b>150+</b><span>учеников подготовлено</span></article>
+      <article class="stat reveal"><b>92</b><span>балл ЕГЭ по информатике</span></article>
+      <article class="stat reveal"><b>1-е</b><span>занятие — бесплатно</span></article>
+      <article class="stat reveal"><b>5.0</b><span>рейтинг на Avito</span></article>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="container">
+    <div class="section-head reveal"><div><div class="section-kicker">Отзывы</div><h2>Что говорят ученики и родители</h2></div><p class="section-desc">Реальные отзывы с Avito и сообщения от учеников после экзаменов. Иногда провожу бесплатные дополнительные занятия для своих учеников.</p></div>
+    <div class="reviews-grid">
+      <article class="review reveal"><div class="review-top"><span class="review-stars">★★★★★</span><span class="review-src">Telegram</span></div><p>«ВЛААААД У МЕНЯ 5!!!!! 20 БАЛЛОВ!!!!! Я В ШОКЕ, никогда в дизни я так не писала. Влад, спасибо тебе большое!!!»</p><div class="review-name">Ученица · результат ОГЭ</div></article>
+
+      <article class="review reveal"><div class="review-top"><span class="review-stars">★★★★★</span><span class="review-src">Telegram</span></div><p>«Привет, как и хотели в сентябре — у меня 72! Спасибо тебе большое, без тебя точно бы ничего не вышло)»</p><div class="review-name">Ученик · результат ЕГЭ</div></article>
+
+      <article class="review reveal"><div class="review-top"><span class="review-stars">★★★★★</span><span class="review-src">Telegram</span></div><p>«Влад, спасибо тебе большое за подготовку! Очень было комфортно с тобой заниматься, объяснял идеально. Прям как будто бы сто лет тебя знала и готовилась с комфортной и уютной атмосферкой.»</p><div class="review-name">Ученица</div></article>
+
+      <article class="review reveal"><div class="review-top"><span class="review-stars">★★★★★</span><span class="review-src">Avito</span></div><p>«Отличный репетитор. Готовился с нуля за пол года, в итоге написал на 95. Спасибо!»</p><div class="review-name">Никита</div></article>
+
+      <article class="review reveal"><div class="review-top"><span class="review-stars">★★★★★</span><span class="review-src">Avito</span></div><p>«Не думала, что моего шалопая с нуля практически за два месяца можно чему-нибудь научить. Молилась, чтоб хоть на тройку ЕГЭ сдал, а тут четвёрка! Плюс в том, что Влад молод и понимает, как найти подход к ребёнку.»</p><div class="review-name">Кристина</div></article>
+
+      <article class="review reveal"><div class="review-top"><span class="review-stars">★★★★★</span><span class="review-src">Avito</span></div><p>«Владислав доступно объяснил решение домашнего задания по информатике. Дочка разобралась. Всё прошло отлично, будем ещё обращаться.»</p><div class="review-name">Оксана</div></article>
+
+      <article class="review reveal"><div class="review-top"><span class="review-stars">★★★★★</span><span class="review-src">Avito</span></div><p>«Лучший репет, мегахарош. Иногда проводит бесплатные занятия, объясняет всё понятно, без воды.»</p><div class="review-name">Антон</div></article>
+
+      <article class="review reveal"><div class="review-top"><span class="review-stars">★★★★★</span><span class="review-src">Avito</span></div><p>«Очень быстро и оперативно выполнил работу, которую нужно было срочно сделать. Никто не взялся, а Владислав помог. Цена была адекватной.»</p><div class="review-name">Ольга</div></article>
+    </div>
+  </div>
+</section>
+
 <section class="cta" id="consultation">
   <div class="container">
     <div class="cta-box reveal">
@@ -340,7 +395,7 @@
   // Поэтому заявка отправляется на отдельный прокси-эндпоинт (Cloudflare Worker),
   // который уже сам, храня токен в секретах, шлёт сообщение в Telegram.
   // Как развернуть прокси — см. WORKER_SETUP.md в корне репозитория.
-  const TELEGRAM_PROXY_URL = 'https://hi-imvlad.vana080j.workers.dev';
+  const TELEGRAM_PROXY_URL = 'https://ЗАМЕНИТЕ-НА-АДРЕС-ВАШЕГО-WORKER.workers.dev';
 
   const form = document.getElementById('form');
   if (form) {
