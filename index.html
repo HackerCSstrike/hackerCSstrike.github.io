@@ -218,7 +218,21 @@
 </head>
 <body>
 
-
+<header class="header">
+  <div class="container header__inner">
+    <a href="#" class="brand">
+      <span class="brand__title">Привет, я Влад</span>
+      <span class="brand__subtitle">Репетитор по математике и информатике</span>
+    </a>
+    <nav class="nav">
+      <a href="#subjects">Предметы</a>
+      <a href="#process">Как проходят занятия</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#advantages">Подход</a>
+    </nav>
+    <a href="#consultation" class="header__cta">Записаться</a>
+  </div>
+</header>
 
 <section class="hero">
   <div class="container">
@@ -433,6 +447,10 @@
       if (ok) {
         if (success) success.style.display = 'block';
         spawnConfetti();
+        // Цель VK Рекламы: "Оформление заявки (лид)" — JS-событие lead_submit
+        if (window._tmr) {
+          window._tmr.push({ type: 'reachGoal', id: 3786443, goal: 'lead_submit' });
+        }
         form.reset();
       } else {
         if (errorBox) errorBox.style.display = 'block';
@@ -497,6 +515,7 @@
 <script type="text/javascript">
 var _tmr = window._tmr || (window._tmr = []);
 _tmr.push({id: "3695212", type: "pageView", start: (new Date()).getTime()});
+_tmr.push({id: "3786443", type: "pageView", start: (new Date()).getTime()});
 (function (d, w, id) {
   if (d.getElementById(id)) return;
   var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
