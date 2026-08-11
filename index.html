@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Подготовка к ОГЭ и ЕГЭ по математике и информатике. Индивидуальные занятия с репетитором онлайн.">
+  <title>Подготовка к ОГЭ и ЕГЭ | Математика и информатика</title>
+  <style>
+    :root{
+      --bg:#f7f8fc;--surface:#fff;--ink:#172033;--muted:#667085;
+      --accent:#625df5;--accent2:#8a74ff;--line:#e8eaf2;
+      --shadow:0 24px 70px rgba(31,38,65,.12);--radius:28px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden}
+    body:before{content:"";position:fixed;inset:-20%;z-index:-2;background:
+      radial-gradient(circle at 75% 12%,rgba(98,93,245,.11),transparent 24%),
+      radial-gradient(circle at 10% 70%,rgba(138,116,255,.08),transparent 22%);
+      pointer-events:none}
+    a{text-decoration:none;color:inherit}
+    button,input,select{font:inherit}
+    .container{width:min(1160px,calc(100% - 40px));margin:auto}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* HEADER */
+    .header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      padding: 22px 0;
+    }
+
+    .header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .brand__title {
+      font-size: 17px;
+      font-weight: 850;
+      letter-spacing: -0.02em;
+    }
+
+    .brand__subtitle {
+      font-size: 11px;
+      color: #7b8292;
+      font-weight: 600;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-left: auto;
+    }
+
+    .nav a {
+      font-size: 13px;
+      font-weight: 700;
+      color: #697184;
+      transition: color .2s ease;
+    }
+
+    .nav a:hover {
+      color: #625df5;
+    }
+
+    .header__cta {
+      padding: 11px 17px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid #e1e3ed;
+      font-size: 13px;
+      font-weight: 800;
+      transition: .25s ease;
+    }
+
+    .header__cta:hover {
+      transform: translateY(-2px);
+      border-color: #625df5;
+      color: #625df5;
+      box-shadow: 0 8px 20px rgba(31,38,65,.08);
+    }
+
+    /* HERO */
+    .hero{min-height:760px;display:flex;align-items:center;padding:72px 0 52px;position:relative}
+    .hero__grid{display:grid;grid-template-columns:1.02fr .98fr;gap:64px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;padding:8px 13px;border:1px solid #dedff0;border-radius:999px;background:rgba(255,255,255,.72);font-size:13px;font-weight:750;color:#5752d8;backdrop-filter:blur(12px)}
+    .eyebrow:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px rgba(98,93,245,.1)}
+    h1{font-size:clamp(48px,6vw,78px);line-height:.98;letter-spacing:-.055em;margin:22px 0 26px;max-width:760px}
+    .hero__lead{font-size:19px;line-height:1.6;color:var(--muted);max-width:650px;margin:0 0 34px}
+    .actions{display:flex;gap:13px;flex-wrap:wrap}
+    .btn{border:0;border-radius:15px;padding:16px 22px;font-weight:800;cursor:pointer;transition:.25s ease;display:inline-flex;justify-content:center;align-items:center}
+    .btn--primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 14px 28px rgba(98,93,245,.24)}
+    .btn--primary:hover{transform:translateY(-3px);box-shadow:0 18px 34px rgba(98,93,245,.3)}
+    .btn--secondary{background:#fff;border:1px solid #e0e2ed;color:#343b4e}
+    .btn--secondary:hover{transform:translateY(-3px);border-color:#c9cbea}
+    .chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:28px}
+    .chip{padding:9px 13px;background:#fff;border:1px solid var(--line);border-radius:999px;color:#596174;font-size:13px;font-weight:700}
+
+    /* HERO VISUAL */
+    .hero-art{position:relative;height:540px;display:grid;place-items:center}
+    .orb{position:absolute;width:410px;height:410px;border-radius:50%;background:radial-gradient(circle,rgba(123,113,255,.22),rgba(123,113,255,.04) 58%,transparent 70%);filter:blur(3px);animation:breathe 5s ease-in-out infinite}
+    .dashboard{position:relative;width:min(430px,90%);background:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.95);border-radius:28px;padding:18px;box-shadow:var(--shadow);backdrop-filter:blur(18px);transform:rotate(2deg);animation:float 6s ease-in-out infinite}
+    .windowbar{display:flex;gap:6px;margin:2px 0 16px 3px}
+    .windowbar i{width:8px;height:8px;border-radius:50%;background:#d8dbe6}
+    .dash-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+    .dash-label{font-size:12px;color:#81899b;font-weight:700}
+    .dash-title{font-size:25px;font-weight:850;letter-spacing:-.04em;margin-top:4px}
+    .score{padding:9px 11px;border-radius:13px;background:#efefff;color:#5752d8;font-weight:850;font-size:13px}
+    .graph{height:170px;border-radius:20px;background:linear-gradient(145deg,#f6f6ff,#fbfbfe);position:relative;overflow:hidden;border:1px solid #eeeeF5}
+    .gridline{position:absolute;left:20px;right:20px;height:1px;background:#e8e9f1}
+    .gridline:nth-child(1){top:38px}.gridline:nth-child(2){top:84px}.gridline:nth-child(3){top:130px}
+    .graph svg{position:absolute;inset:12px;width:calc(100% - 24px);height:calc(100% - 24px)}
+    .dash-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+    .mini{padding:13px;border:1px solid #eceef4;border-radius:16px;background:#fff}
+    .mini b{display:block;font-size:18px}.mini span{font-size:11px;color:#8a91a1}
+    .floating-card{position:absolute;background:#fff;border:1px solid #eef0f5;border-radius:18px;padding:13px 15px;box-shadow:0 16px 35px rgba(31,38,65,.12);font-size:13px;font-weight:800}
+    .floating-card small{display:block;color:#8a91a1;font-weight:600;margin-top:3px}
+    .fc1{top:80px;right:0;animation:float2 5s ease-in-out infinite}
+    .fc2{bottom:82px;left:0;animation:float2 5.8s ease-in-out infinite .4s}
+    @keyframes float{0%,100%{transform:rotate(2deg) translateY(0)}50%{transform:rotate(1deg) translateY(-12px)}}
+    @keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+    @keyframes breathe{0%,100%{transform:scale(.94);opacity:.8}50%{transform:scale(1.05);opacity:1}}
+
+    /* SECTIONS */
+    section:not(.hero){padding:105px 0}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:38px}
+    .section-kicker{font-size:13px;font-weight:850;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px}
+    h2{font-size:clamp(34px,4vw,52px);letter-spacing:-.045em;line-height:1.05;margin:0}
+    .section-desc{color:var(--muted);max-width:470px;line-height:1.6;margin:0}
+
+    .target-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+    .target{min-height:235px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px;position:relative;overflow:hidden;transition:.3s}
+    .target:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;background:rgba(98,93,245,.07);right:-45px;bottom:-55px}
+    .target:hover{transform:translateY(-7px);box-shadow:0 18px 45px rgba(31,38,65,.09)}
+    .num{font-size:13px;color:#8a91a1;font-weight:850}.target h3{font-size:24px;margin:55px 0 10px;letter-spacing:-.03em}.target p{color:var(--muted);line-height:1.55;margin:0}
+
+    .subjects-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .subject{border-radius:var(--radius);padding:34px;color:#fff;min-height:300px;position:relative;overflow:hidden;background:#1d2433}
+    .subject:nth-child(2){background:#625df5}
+    .subject:after{content:"∑";position:absolute;right:22px;bottom:-45px;font-size:190px;font-weight:900;opacity:.08}
+    .subject:nth-child(2):after{content:"{}"}
+    .subject h3{font-size:36px;margin:0 0 25px;letter-spacing:-.04em}.subject ul{padding:0;margin:0;list-style:none;display:grid;gap:12px}.subject li:before{content:"✓";margin-right:10px;color:#bdbaff;font-weight:900}.subject li{font-weight:650;color:rgba(255,255,255,.83)}
+
+    .process{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+    .step{padding:22px 26px;border-left:1px solid var(--line);position:relative}.step:first-child{border-left:0}
+    .step-no{font-size:12px;color:var(--accent);font-weight:900;margin-bottom:45px}.step h3{font-size:20px;line-height:1.15;margin:0 0 10px}.step p{color:var(--muted);line-height:1.55;margin:0}
+
+    .adv-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+    .adv{padding:23px;background:#fff;border:1px solid var(--line);border-radius:20px;transition:.3s}.adv:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(31,38,65,.07)}.adv-icon{font-size:22px;margin-bottom:45px}.adv h3{font-size:17px;margin:0 0 8px}.adv p{font-size:13px;line-height:1.5;color:var(--muted);margin:0}
+
+    .cta{padding-bottom:110px!important}
+    .cta-box{background:#171d2b;color:#fff;border-radius:34px;padding:55px;display:grid;grid-template-columns:1fr .95fr;gap:55px;position:relative;overflow:hidden}
+    .cta-box:before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;right:-160px;top:-190px;background:radial-gradient(circle,rgba(122,112,255,.35),transparent 65%)}
+    .cta-box h2{max-width:570px}.cta-box>div>p{color:#aeb5c6;line-height:1.6;max-width:540px}
+    .form{position:relative;z-index:1;display:grid;gap:12px}.form input,.form select{width:100%;border:1px solid #343b4e;background:#222a3a;color:#fff;border-radius:13px;padding:14px 15px;outline:none}.form input:focus,.form select:focus{border-color:#7d75ff;box-shadow:0 0 0 4px rgba(125,117,255,.12)}.form select option{color:#111}.form .btn{margin-top:4px}.success{display:none;padding:15px;border-radius:13px;background:#27392f;color:#aee6c1}.error{display:none;padding:15px;border-radius:13px;background:#3a2530;color:#f5b8c4}.btn[disabled]{opacity:.6;cursor:not-allowed;transform:none!important}
+
+    @media(max-width:900px){
+      .hero{padding-top:45px;min-height:auto}.hero__grid{grid-template-columns:1fr;gap:25px}.hero-art{height:440px}.target-grid{grid-template-columns:1fr 1fr}.adv-grid{grid-template-columns:repeat(3,1fr)}.steps{grid-template-columns:1fr 1fr}.step{border-bottom:1px solid var(--line)}.subjects-wrap,.cta-box{grid-template-columns:1fr}.cta-box{padding:38px}
+      .nav{gap:16px}.brand__subtitle{max-width:180px}
+    }
+    @media(max-width:700px){
+      .nav{display:none}.header__cta{padding:10px 14px}
+    }
+    @media(max-width:600px){
+      .container{width:min(100% - 28px,1160px)}section:not(.hero){padding:76px 0}h1{font-size:48px}.hero__lead{font-size:17px}.actions .btn{width:100%}.hero-art{height:350px}.dashboard{width:94%}.fc1{right:-8px}.fc2{left:-8px}.target-grid,.subjects-wrap,.steps,.adv-grid{grid-template-columns:1fr}.target{min-height:200px}.target h3{margin-top:35px}.step{border-left:0}.section-head{display:block}.section-desc{margin-top:15px}.cta-box{border-radius:26px;padding:30px 22px}.cta-box h2{font-size:37px}.dash-bottom{gap:6px}.mini{padding:10px}.mini b{font-size:15px}
+      .header {
+        padding: 16px 0;
+      }
+
+      .brand__subtitle {
+        display: none;
+      }
+
+      .header__cta {
+        padding: 10px 14px;
+      }
+    }
+    @media(max-width:380px){
+      .cta-box{padding:24px 18px;border-radius:22px}
+      .btn{padding:14px 18px;font-size:14px}
+      .form input,.form select{padding:12px 13px;font-size:14px}
+    }
+  </style>
+</head>
+<body>
+
+
+
+<section class="hero">
+  <div class="container">
+    <div class="hero__grid">
+      <div class="reveal">
+        <div class="eyebrow">Привет, я Влад · ОГЭ · ЕГЭ</div>
+        <h1>Помогаю подготовиться к ОГЭ и ЕГЭ по математике и информатике.</h1>
+        <p class="hero__lead">Индивидуальные занятия без хаоса: находим пробелы, строим понятный план и отрабатываем именно то, что нужно для экзамена.</p>
+        <div class="actions">
+          <button class="btn btn--primary" data-scroll="#consultation">Записаться на полноценный урок</button>
+          <button class="btn btn--secondary" data-scroll="#process">Как это работает</button>
+        </div>
+        <div class="chips"><span class="chip">Математика</span><span class="chip">Информатика</span><span class="chip">Онлайн</span></div>
+      </div>
+
+      <div class="hero-art reveal">
+        <div class="orb"></div>
+        <div class="dashboard">
+          <div class="windowbar"><i></i><i></i><i></i></div>
+          <div class="dash-top"><div><div class="dash-label">ПРОГРЕСС ПОДГОТОВКИ</div><div class="dash-title">Точка → результат</div></div><div class="score">+32%</div></div>
+          <div class="graph">
+            <span class="gridline"></span><span class="gridline"></span><span class="gridline"></span>
+            <svg viewBox="0 0 380 145" preserveAspectRatio="none" aria-hidden="true">
+              <defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#716aff" stop-opacity=".25"/><stop offset="1" stop-color="#716aff" stop-opacity="0"/></linearGradient></defs>
+              <path d="M0 126 C40 118,52 112,82 116 S132 86,160 95 S205 65,230 73 S274 44,300 53 S344 22,380 28 L380 145 L0 145Z" fill="url(#area)"/>
+              <path d="M0 126 C40 118,52 112,82 116 S132 86,160 95 S205 65,230 73 S274 44,300 53 S344 22,380 28" fill="none" stroke="#6963f7" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="380" cy="28" r="5" fill="#6963f7"/>
+            </svg>
+          </div>
+          <div class="dash-bottom"><div class="mini"><b>8→11</b><span>класс</span></div><div class="mini"><b>ОГЭ</b><span>ЕГЭ</span></div><div class="mini"><b>1:1</b><span>формат</span></div></div>
+        </div>
+        <div class="floating-card fc1">Разбор ошибок<small>не просто решить, а понять</small></div>
+        <div class="floating-card fc2">Персональный план<small>под цель и уровень ученика</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="targets">
+  <div class="container">
+    <div class="section-head reveal"><div><div class="section-kicker">Для чего</div><h2>Подготовка под твою цель</h2></div><p class="section-desc">Не пытаемся учить всё подряд. Сначала определяем точку старта, затем закрываем конкретные пробелы.</p></div>
+    <div class="target-grid">
+      <article class="target reveal"><span class="num">01</span><h3>ОГЭ</h3><p>Типовые задания, теория, практика и системная работа над ошибками.</p></article>
+      <article class="target reveal"><span class="num">02</span><h3>ЕГЭ</h3><p>Подготовка к экзамену с фокусом на текущий уровень и поставленную цель.</p></article>
+      <article class="target reveal"><span class="num">03</span><h3>Школьная программа</h3><p>Разбираем сложные темы и возвращаем уверенность в базовых знаниях.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="subjects">
+  <div class="container">
+    <div class="section-head reveal"><div><div class="section-kicker">Предметы</div><h2>Два направления.<br>Один понятный подход.</h2></div></div>
+    <div class="subjects-wrap">
+      <article class="subject reveal"><h3>Математика</h3><ul><li>Алгебра</li><li>Геометрия</li><li>Интерактивная доска и плейлист с записями на ютубе</li><li>Разбор заданий ОГЭ / ЕГЭ</li><li>Работа над ошибками</li></ul></article>
+      <article class="subject reveal"><h3>Информатика</h3><ul><li>Практика</li><li>Интерактивная доска и плейлист с записями на ютубе</li><li>Программирование</li><li>Разбор заданий ОГЭ / ЕГЭ</li><li>Шаблоны</li></ul></article>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="container">
+    <div class="section-head reveal"><div><div class="section-kicker">Процесс</div><h2>Как проходит обучение</h2></div></div>
+    <div class="steps">
+      <article class="step reveal"><div class="step-no">01 / ДИАГНОСТИКА</div><h3>Определяем уровень</h3><p>Понимаем, что уже получается и где начинаются сложности.</p></article>
+      <article class="step reveal"><div class="step-no">02 / АНАЛИЗ</div><h3>Находим пробелы</h3><p>Выделяем темы, которые сильнее всего влияют на результат.</p></article>
+      <article class="step reveal"><div class="step-no">03 / ПЛАН</div><h3>Собираем маршрут</h3><p>Формируем понятный план подготовки под цель ученика.</p></article>
+      <article class="step reveal"><div class="step-no">04 / ПРОГРЕСС</div><h3>Отслеживаем результат</h3><p>Проверяем прогресс, разбираем ошибки и корректируем план.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="advantages">
+  <div class="container">
+    <div class="section-head reveal"><div><div class="section-kicker">Подход</div><h2>Без магии. Просто система.</h2></div></div>
+    <div class="adv-grid">
+      <article class="adv reveal"><div class="adv-icon">01</div><h3>Индивидуальный подход</h3><p>Программа под уровень и цель конкретного ученика.</p></article>
+      <article class="adv reveal"><div class="adv-icon">02</div><h3>Понятные объяснения</h3><p>Сложные темы разбираются пошагово, без лишней воды.</p></article>
+      <article class="adv reveal"><div class="adv-icon">03</div><h3>Экзаменационная практика</h3><p>Отработка формата и типов заданий, которые встретятся на экзамене.</p></article>
+      <article class="adv reveal"><div class="adv-icon">04</div><h3>Работа над ошибками</h3><p>Ошибка становится материалом для следующего шага.</p></article>
+      <article class="adv reveal"><div class="adv-icon">05</div><h3>Персональный план</h3><p>Понятно, что изучаем сейчас и зачем это нужно.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="consultation">
+  <div class="container">
+    <div class="cta-box reveal">
+      <div><div class="section-kicker" style="color:#9c96ff">Старт</div><h2>Понять, с чего начать подготовку</h2><p>Оставьте заявку. Укажите класс, предмет и цель. После этого можно обсудить текущий уровень и формат занятий.</p></div>
+      <form class="form" id="form">
+        <input name="name" placeholder="Имя" required>
+        <select name="grade" required><option value="">Класс</option><option>8 класс</option><option>9 класс</option><option>10 класс</option><option>11 класс</option></select>
+        <select name="subject" required><option value="">Предмет</option><option>Математика</option><option>Информатика</option></select>
+        <select name="goal" required><option value="">Цель</option><option>ОГЭ</option><option>ЕГЭ</option><option>Подтянуть школьную программу</option><option>Другое</option></select>
+        <input name="contact" placeholder="Telegram, VK или телефон" required>
+        <button class="btn btn--primary" type="submit">Оставить заявку</button>
+        <div class="success" id="success">Заявка отправлена! Я свяжусь с вами в ближайшее время.</div>
+        <div class="error" id="formError">Не получилось отправить заявку. Попробуйте ещё раз или напишите напрямую в Telegram.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  // 1. Анимация появления блоков
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = `${Math.min(i * 45, 180)}ms`;
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // 2. Скролл по явным триггерам
+  document.querySelectorAll('[data-scroll], a[href^="#"]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      if (el.closest('form')) return;
+      e.preventDefault();
+      e.stopPropagation();
+
+      const selector = el.dataset.scroll || el.getAttribute('href');
+      if (!selector || selector === '#') return;
+
+      const target = document.querySelector(selector);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // 3. Обработка сабмита формы, отправка в Telegram (через прокси) и анимация шариков
+  //
+  // ВАЖНО: токен бота НЕЛЬЗЯ хранить в этом файле — он публичный (репозиторий на
+  // GitHub, сайт на GitHub Pages), и любой посетитель увидит его в исходном коде.
+  // Поэтому заявка отправляется на отдельный прокси-эндпоинт (Cloudflare Worker),
+  // который уже сам, храня токен в секретах, шлёт сообщение в Telegram.
+  // Как развернуть прокси — см. WORKER_SETUP.md в корне репозитория.
+  const TELEGRAM_PROXY_URL = 'https://hi-imvlad.vana080j.workers.dev';
+
+  const form = document.getElementById('form');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const success = document.getElementById('success');
+      const errorBox = document.getElementById('formError');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if (success) success.style.display = 'none';
+      if (errorBox) errorBox.style.display = 'none';
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Отправляем…'; }
+
+      const data = new FormData(form);
+      const payload = {
+        name: data.get('name'),
+        grade: data.get('grade'),
+        subject: data.get('subject'),
+        goal: data.get('goal'),
+        contact: data.get('contact')
+      };
+
+      let ok = false;
+      try {
+        const res = await fetch(TELEGRAM_PROXY_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        ok = res.ok;
+      } catch (err) {
+        console.error('Ошибка отправки заявки:', err);
+      }
+
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Оставить заявку'; }
+
+      if (ok) {
+        if (success) success.style.display = 'block';
+        spawnConfetti();
+        form.reset();
+      } else {
+        if (errorBox) errorBox.style.display = 'block';
+      }
+    });
+
+    let savedScrollY = window.scrollY;
+    form.querySelectorAll('input, select, textarea').forEach(el => {
+      el.addEventListener('mousedown', () => { savedScrollY = window.scrollY; });
+      el.addEventListener('touchstart', () => { savedScrollY = window.scrollY; });
+      el.addEventListener('focus', () => { window.scrollTo(0, savedScrollY); });
+    });
+  }
+
+  function spawnConfetti() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const container = document.createElement('div');
+    container.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden;';
+    document.body.appendChild(container);
+
+    const colors = ['#625df5', '#8a74ff', '#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff922b'];
+    const particles = [];
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+
+    const count = window.innerWidth < 480 ? 42 : 70;
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const size = Math.random() * 9 + 6;
+      const dx = (Math.random() - 0.5) * (window.innerWidth < 480 ? 260 : 420);
+      const dy = (Math.random() - 0.5) * 400 - 100;
+      const duration = 1000 + Math.random() * 600;
+      const spin = (Math.random() - 0.5) * 720;
+
+      el.style.cssText = `position:absolute;left:${cx}px;top:${cy}px;width:${size}px;height:${size}px;border-radius:50%;background:${color};box-shadow:0 3px 8px rgba(0,0,0,.15);will-change:transform,opacity;`;
+      container.appendChild(el);
+      particles.push({ el, dx, dy, duration, spin, start: performance.now() });
+    }
+
+    function tick(now) {
+      let alive = false;
+      for (const p of particles) {
+        const t = Math.min((now - p.start) / p.duration, 1);
+        const x = p.dx * t;
+        const y = p.dy * t + 0.5 * 300 * t * t;
+        const s = 1 - t * 0.6;
+        const r = p.spin * t;
+        const o = t < 0.7 ? 1 : 1 - (t - 0.7) / 0.3;
+        p.el.style.transform = `translate3d(${x}px,${y}px,0) rotate(${r}deg) scale(${s})`;
+        p.el.style.opacity = o;
+        if (t < 1) alive = true;
+      }
+      if (alive) requestAnimationFrame(tick);
+      else container.remove();
+    }
+    requestAnimationFrame(tick);
+  }
+</script>
+
+</body>
+</html>

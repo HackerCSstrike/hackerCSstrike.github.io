@@ -1,0 +1,25 @@
+{
+  "name": "tutor-landing",
+  "version": "1.0.0",
+  "description": "Landing page для репетитора по математике и информатике",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "build": "echo 'No build step required'",
+    "deploy": "vercel"
+  },
+  "keywords": [
+    "репетитор",
+    "математика",
+    "информатика",
+    "ОГЭ",
+    "ЕГЭ",
+    "landing-page"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/tutor-landing.git"
+  }
+}
