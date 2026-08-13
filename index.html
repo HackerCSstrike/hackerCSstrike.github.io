@@ -184,6 +184,7 @@
     .cta-box:before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;right:-160px;top:-190px;background:radial-gradient(circle,rgba(122,112,255,.35),transparent 65%)}
     .cta-box h2{max-width:570px}.cta-box>div>p{color:#aeb5c6;line-height:1.6;max-width:540px}
     .form{position:relative;z-index:1;display:grid;gap:12px}.form input,.form select{width:100%;border:1px solid #343b4e;background:#222a3a;color:#fff;border-radius:13px;padding:14px 15px;outline:none}.form input:focus,.form select:focus{border-color:#7d75ff;box-shadow:0 0 0 4px rgba(125,117,255,.12)}.form select option{color:#111}.form .btn{margin-top:4px}.success{display:none;padding:15px;border-radius:13px;background:#27392f;color:#aee6c1}.error{display:none;padding:15px;border-radius:13px;background:#3a2530;color:#f5b8c4}.btn[disabled]{opacity:.6;cursor:not-allowed;transform:none!important}
+    .form-note{font-size:12px;color:#8b93a8;margin:-2px 0 2px;line-height:1.5}
 
     @media(max-width:900px){
       .hero{padding-top:45px;min-height:auto}.hero__grid{grid-template-columns:1fr;gap:25px}.hero-art{height:440px}.target-grid{grid-template-columns:1fr 1fr}.adv-grid{grid-template-columns:repeat(3,1fr)}.steps{grid-template-columns:1fr 1fr}.step{border-bottom:1px solid var(--line)}.subjects-wrap,.cta-box{grid-template-columns:1fr}.cta-box{padding:38px}
@@ -339,13 +340,11 @@
 <section class="cta" id="consultation">
   <div class="container">
     <div class="cta-box reveal">
-      <div><div class="section-kicker" style="color:#9c96ff">Старт</div><h2>Понять, с чего начать подготовку</h2><p>Оставьте заявку. Укажите класс, предмет и цель. После этого можно обсудить текущий уровень и формат занятий.</p></div>
+      <div><div class="section-kicker" style="color:#9c96ff">Старт</div><h2>Записаться на бесплатное занятие</h2><p>Оставьте имя и контакт — напишу вам в течение часа, обсудим уровень, цель и удобное время.</p></div>
       <form class="form" id="form">
         <input name="name" placeholder="Имя" required>
-        <select name="grade" required><option value="">Класс</option><option>8 класс</option><option>9 класс</option><option>10 класс</option><option>11 класс</option></select>
-        <select name="subject" required><option value="">Предмет</option><option>Математика</option><option>Информатика</option></select>
-        <select name="goal" required><option value="">Цель</option><option>ОГЭ</option><option>ЕГЭ</option><option>Подтянуть школьную программу</option><option>Другое</option></select>
         <input name="contact" placeholder="Telegram, VK или телефон" required>
+        <div class="form-note">Класс, предмет и цель — обсудим лично, писать сейчас не нужно</div>
         <button class="btn btn--primary" type="submit">Оставить заявку</button>
         <div class="success" id="success">Заявка отправлена! Я свяжусь с вами в ближайшее время.</div>
         <div class="error" id="formError">Не получилось отправить заявку. Попробуйте ещё раз или напишите напрямую в Telegram.</div>
@@ -408,9 +407,6 @@
       const data = new FormData(form);
       const payload = {
         name: data.get('name'),
-        grade: data.get('grade'),
-        subject: data.get('subject'),
-        goal: data.get('goal'),
         contact: data.get('contact')
       };
 
