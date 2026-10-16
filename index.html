@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3efe6">
+  <meta name="description" content="По делу — небольшие задания с оплатой.">
+  <title>По делу — задания с оплатой</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f3efe6;
+      --card: #fffdf8;
+      --ink: #1c1916;
+      --muted: #777067;
+      --line: #e3dbce;
+      --money: #0e6844;
+      --berry: #cb11ab;
+      --berry-soft: #f8e6f3;
+      --ozon: #005bff;
+      --ozon-soft: #e6eeff;
+      --ai: #1a3348;
+      --ai-soft: #e4edf3;
+      --photo: #8d5a28;
+      --photo-soft: #f6ecdc;
+      --video: #245e58;
+      --video-soft: #e2f0ed;
+      --check: #6e4528;
+      --check-soft: #f4e7d8;
+      --display: "Unbounded", "Onest", sans-serif;
+      --body: "Onest", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      font-family: var(--body);
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: var(--paper);
+      color: var(--ink);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; min-height: 100vh; font-size: 15px; line-height: 1.5; }
+    button, input, textarea { font: inherit; }
+    button { color: inherit; }
+    button:not(:disabled) { cursor: pointer; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid #0e684466; outline-offset: 2px; }
+    .shell { min-height: 100vh; }
+    .topbar {
+      position: sticky; top: 0; z-index: 10; height: 66px; padding: 0 22px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      background: #f3efe6f2; border-bottom: 1px solid var(--line); backdrop-filter: blur(14px);
+    }
+    .brand { display: inline-flex; align-items: center; gap: 12px; padding: 0; border: 0; background: none; text-align: left; }
+    .brand-mark { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; color: var(--paper); background: var(--ink); font: 700 19px var(--display); }
+    .brand-name { display: block; font: 700 16px/1 var(--display); letter-spacing: -.04em; }
+    .brand-caption { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; }
+    .desktop-nav { display: flex; align-items: center; gap: 26px; }
+    .nav-button { min-height: 42px; padding: 0 2px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--muted); font-weight: 600; }
+    .nav-button.active { color: var(--ink); border-bottom-color: var(--ink); }
+    .balance-link { padding: 0; border: 0; background: none; text-align: right; }
+    .balance-link strong { display: block; color: var(--money); font: 700 17px/1.2 var(--display); font-variant-numeric: tabular-nums; }
+    .balance-link span { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; }
+    main { width: min(100% - 40px, 992px); margin: 0 auto; padding: 26px 0 84px; }
+    .eyebrow { color: var(--muted); font-size: 13px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 0; font: 700 clamp(27px, 5vw, 36px)/1.15 var(--display); letter-spacing: -.045em; }
+    h2 { margin-bottom: 0; font-size: 18px; letter-spacing: -.02em; }
+    .intro { max-width: 620px; margin: 9px 0 0; color: var(--muted); font-size: 14px; }
+    .panel { border: 1px solid var(--line); border-radius: 21px; background: var(--card); }
+    .home-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(235px, .85fr); gap: 22px; margin-top: 25px; }
+    .main-column, .side-column { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+    .balance-card { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; padding: 23px; }
+    .balance-caption { color: var(--muted); font-size: 13px; }
+    .big-balance { margin: 3px 0 0; color: var(--money); font: 700 clamp(35px, 7vw, 49px)/1.15 var(--display); letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+    .small-muted { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
+    .button { min-height: 46px; padding: 0 21px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 999px; background: var(--ink); color: var(--paper); font-weight: 650; transition: transform .15s ease, opacity .15s ease; }
+    .button:active { transform: translateY(1px); }
+    .button:disabled { opacity: .4; cursor: not-allowed; }
+    .button.light { background: var(--paper); color: var(--ink); }
+    .button.outline { border: 1px solid var(--line); background: var(--card); color: var(--ink); }
+    .button.full { width: 100%; }
+    .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 11px; }
+    .text-button { padding: 0; border: 0; background: none; font-size: 13px; font-weight: 650; }
+    .task-list { display: flex; flex-direction: column; gap: 10px; }
+    .task-card {
+      width: 100%; padding: 15px 16px 14px 18px; border: 1px solid var(--line); border-radius: 20px;
+      text-align: left; box-shadow: inset 4px 0 0 var(--task-color); background: var(--task-soft);
+      transition: border-color .16s ease, transform .16s ease;
+    }
+    .task-card:hover { transform: translateY(-1px); }
+    .task-card.selected { border-color: var(--ink); }
+    .task-wb { --task-color: var(--berry); --task-soft: var(--berry-soft); }
+    .task-ozon { --task-color: var(--ozon); --task-soft: var(--ozon-soft); }
+    .task-ai { --task-color: var(--ai); --task-soft: var(--ai-soft); }
+    .task-photo { --task-color: var(--photo); --task-soft: var(--photo-soft); }
+    .task-video { --task-color: var(--video); --task-soft: var(--video-soft); }
+    .task-check { --task-color: var(--check); --task-soft: var(--check-soft); }
+    .task-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .task-copy { min-width: 0; }
+    .chips { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .chip { min-height: 22px; padding: 2px 9px; display: inline-flex; align-items: center; border-radius: 999px; background: var(--task-color); color: white; font-size: 11px; font-weight: 700; line-height: 1; }
+    .chip-ai { letter-spacing: .1em; background: var(--paper); color: var(--ai); border-radius: 7px; }
+    .chip-status { background: transparent; color: var(--ink); border: 1px solid #1c191644; }
+    .task-title { display: block; margin-top: 8px; font-weight: 680; line-height: 1.3; }
+    .task-subject { display: block; margin-top: 3px; color: var(--muted); font-size: 13px; line-height: 1.4; }
+    .task-pay { flex: 0 0 auto; color: var(--money); font: 700 18px/1.25 var(--display); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .task-meta { display: block; margin-top: 11px; color: var(--muted); font-size: 12px; }
+    .metric-panel { padding: 18px; }
+    .metric-label { color: var(--muted); font-size: 13px; }
+    .metric-value { margin: 5px 0 0; color: var(--money); font: 700 28px/1.2 var(--display); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+    .metric-copy { margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .feed { overflow: hidden; }
+    .feed-row, .withdraw-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 15px; }
+    .feed-row + .feed-row, .withdraw-row + .withdraw-row { border-top: 1px solid var(--line); }
+    .feed-title { display: block; max-width: 100%; overflow: hidden; font-size: 13px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+    .feed-date { display: block; color: var(--muted); font-size: 11px; }
+    .feed-amount { flex: 0 0 auto; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .feed-amount.in { color: var(--money); }
+    .page-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; }
+    .heading-note { margin: 0; color: var(--muted); font-size: 13px; text-align: right; }
+    .tabs { display: flex; gap: 22px; margin-top: 22px; border-bottom: 1px solid var(--line); }
+    .tab { min-height: 40px; padding: 0 2px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--muted); font-weight: 600; white-space: nowrap; }
+    .tab.active { border-bottom-color: var(--ink); color: var(--ink); }
+    .tasks-layout { display: grid; grid-template-columns: minmax(0, .93fr) minmax(0, 1.07fr); gap: 17px; margin-top: 15px; align-items: start; }
+    .detail-column { position: sticky; top: 82px; }
+    .detail-card { overflow: hidden; border: 1px solid var(--line); border-radius: 21px; background: var(--card); }
+    .detail-head { padding: 19px 20px; background: var(--task-soft); box-shadow: inset 4px 0 0 var(--task-color); }
+    .detail-title-line { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-top: 12px; }
+    .detail-title { margin: 0; font-size: 19px; line-height: 1.3; }
+    .detail-subject { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+    .detail-client { margin: 11px 0 0; font-size: 12px; }
+    .detail-body { padding: 18px 20px 20px; }
+    .brief { margin: 0; font-size: 13px; line-height: 1.65; }
+    .hint-list { margin: 10px 0 17px; padding-left: 18px; color: var(--muted); font-size: 13px; }
+    .hint-list li + li { margin-top: 4px; }
+    .field-label { display: block; margin: 16px 0 7px; font-size: 13px; font-weight: 650; }
+    .field { width: 100%; min-height: 120px; padding: 12px 13px; resize: vertical; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); color: var(--ink); }
+    .field::placeholder { color: #8c857d; }
+    .file-input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
+    .file-label { display: inline-flex; min-height: 40px; align-items: center; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-size: 12px; font-weight: 600; }
+    .file-name { margin-left: 9px; color: var(--muted); font-size: 12px; }
+    .submit-row { margin-top: 12px; }
+    .review-track { height: 5px; margin-top: 16px; overflow: hidden; border-radius: 99px; background: var(--line); }
+    .review-fill { width: 0; height: 100%; background: var(--ink); animation: review 2s linear forwards; }
+    @keyframes review { to { width: 100%; } }
+    .done-note { padding-left: 12px; border-left: 2px solid var(--line); color: var(--muted); font-size: 13px; }
+    .success-amount { margin: 5px 0; color: var(--money); font: 700 30px/1.2 var(--display); }
+    .empty { padding: 20px 15px; color: var(--muted); font-size: 13px; }
+    .archive-note { margin: 14px 0 0; color: var(--muted); font-size: 12px; }
+    .profile { width: min(100%, 576px); margin: 0 auto; }
+    .identity { display: flex; align-items: center; gap: 14px; }
+    .avatar { width: 56px; height: 56px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 50%; background: var(--ink); color: var(--paper); font: 700 17px var(--display); }
+    .identity h1 { font-size: 25px; }
+    .identity-meta { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+    .verified { margin: 4px 0 0; font-size: 12px; }
+    .verified-mark { color: var(--money); font-weight: 800; }
+    .payout-card { margin-top: 25px; padding: 23px; border-radius: 26px; background: var(--money); color: var(--paper); }
+    .payout-card .metric-label { color: #d7f3e6; }
+    .payout-balance { margin: 5px 0 0; font: 700 clamp(38px, 8vw, 51px)/1.1 var(--display); letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+    .payout-card .button { margin-top: 19px; }
+    .payout-method { margin: 10px 0 0; color: #d7f3e6; font-size: 12px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 13px; padding: 15px 5px; }
+    .stat { padding: 0 6px; text-align: center; }
+    .stat + .stat { border-left: 1px solid var(--line); }
+    .stat-label { display: block; color: var(--muted); font-size: 11px; }
+    .stat-value { display: block; margin: 4px 0 0; font: 700 clamp(12px, 3vw, 16px)/1.2 var(--display); font-variant-numeric: tabular-nums; text-align: center; white-space: nowrap; }
+    .bank-card { margin-top: 13px; padding: 17px 19px; }
+    .bank-title { margin: 0; font-size: 13px; font-weight: 700; }
+    .bank-copy { margin: 7px 0 0; font-size: 13px; }
+    .bank-muted { margin: 1px 0 0; color: var(--muted); font-size: 12px; }
+    .withdrawals { margin-top: 25px; }
+    .withdrawals h2 { margin-bottom: 11px; }
+    .withdraw-status { color: var(--money); font-size: 11px; }
+    .demo-note { margin: 20px 0 0; color: var(--muted); font-size: 11px; text-align: center; }
+    .bottom-nav { display: none; }
+    .modal-backdrop { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 18px; background: #1c19166b; backdrop-filter: blur(3px); }
+    .modal { width: min(100%, 430px); padding: 23px; border: 1px solid var(--line); border-radius: 24px; background: var(--card); box-shadow: 0 20px 60px #1c191626; }
+    .modal h2 { font: 700 23px/1.2 var(--display); }
+    .modal-copy { margin: 5px 0 20px; color: var(--muted); font-size: 13px; }
+    .amount-input-row { display: flex; align-items: baseline; gap: 9px; border-bottom: 1px solid var(--line); }
+    .amount-input { width: 100%; padding: 4px 0 8px; border: 0; background: transparent; outline: 0; font: 700 38px/1.2 var(--display); font-variant-numeric: tabular-nums; }
+    .currency { color: var(--muted); font: 700 23px var(--display); }
+    .quick-amounts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+    .quick-amount { min-height: 37px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-size: 12px; font-weight: 600; }
+    .form-error { min-height: 18px; margin: 10px 0 0; color: #a93b2d; font-size: 12px; }
+    .modal .button { margin-top: 8px; }
+    .receipt { padding: 7px 0 0; text-align: center; }
+    .receipt-check { width: 48px; height: 48px; display: grid; place-items: center; margin: 0 auto 14px; border-radius: 50%; background: #e3f3ea; color: var(--money); font-size: 23px; }
+    .receipt-label { margin: 0; color: var(--muted); font-size: 13px; }
+    .receipt-amount { margin: 3px 0 0; font: 700 38px/1.2 var(--display); letter-spacing: -.04em; }
+    .receipt-info { margin: 8px 0 18px; font-size: 13px; line-height: 1.6; }
+    .receipt-info span { color: var(--muted); }
+    .mobile-detail { display: none; }
+    @media (min-width: 760px) {
+      .topbar { padding: 0 max(22px, calc((100vw - 992px) / 2)); }
+      main { padding-top: 30px; }
+    }
+    @media (max-width: 700px) {
+      body { font-size: 14px; }
+      .topbar { height: 63px; padding: 0 16px; }
+      .desktop-nav { display: none; }
+      .brand-caption { display: none; }
+      main { width: auto; padding: 21px 16px 100px; }
+      .home-grid { display: flex; flex-direction: column; gap: 20px; margin-top: 22px; }
+      .main-column, .side-column { gap: 20px; }
+      .side-column { display: grid; grid-template-columns: 1fr 1fr; }
+      .side-column .metric-panel:last-child { grid-column: 1 / -1; }
+      .balance-card { align-items: stretch; flex-direction: column; padding: 20px; gap: 14px; }
+      .balance-card .button { width: 100%; }
+      .big-balance { font-size: 39px; }
+      .task-card { padding: 14px 14px 13px 17px; border-radius: 19px; }
+      .tasks-layout { display: block; margin-top: 13px; }
+      .detail-column { display: none; }
+      .tabs { gap: 18px; overflow-x: auto; }
+      .profile { width: 100%; }
+      .payout-card { padding: 21px; border-radius: 24px; }
+      .bottom-nav {
+        position: fixed; inset: auto 0 0; z-index: 20; display: grid; grid-template-columns: repeat(3, 1fr);
+        padding: 5px 8px calc(5px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line);
+        background: #f3efe6f5; backdrop-filter: blur(14px);
+      }
+      .bottom-link { min-height: 51px; border: 0; background: transparent; color: var(--muted); font-size: 13px; }
+      .bottom-link.active { color: var(--ink); font-weight: 700; }
+      .mobile-detail {
+        position: fixed; inset: 0; z-index: 15; overflow: auto; padding: 14px 16px calc(92px + env(safe-area-inset-bottom));
+        background: var(--paper);
+      }
+      .mobile-detail.open { display: block; }
+      .back-button { margin-bottom: 13px; }
+      .modal-backdrop { align-items: end; padding: 12px; }
+      .modal { padding: 21px; border-radius: 23px; }
+      .demo-note { padding-bottom: 2px; }
+    }
+    @media (max-width: 380px) {
+      .balance-link strong { font-size: 15px; }
+      .brand { gap: 9px; }
+      .side-column { grid-template-columns: 1fr; }
+      .side-column .metric-panel:last-child { grid-column: auto; }
+      .stats { padding-right: 1px; padding-left: 1px; }
+      .stat { padding: 0 3px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <button class="brand" type="button" data-view="home" aria-label="По делу — на главную">
+        <span class="brand-mark">п</span>
+        <span><span class="brand-name">по делу</span><span class="brand-caption">задания с оплатой</span></span>
+      </button>
+      <nav class="desktop-nav" aria-label="Разделы">
+        <button class="nav-button active" type="button" data-view="home">Главная</button>
+        <button class="nav-button" type="button" data-view="tasks">Задания</button>
+        <button class="nav-button" type="button" data-view="profile">Профиль</button>
+      </nav>
+      <button class="balance-link" type="button" data-view="profile"><strong data-balance>12 720 ₽</strong><span>на балансе</span></button>
+    </header>
+
+    <main id="main"></main>
+    <nav class="bottom-nav" aria-label="Разделы">
+      <button class="bottom-link active" type="button" data-view="home">Главная</button>
+      <button class="bottom-link" type="button" data-view="tasks">Задания</button>
+      <button class="bottom-link" type="button" data-view="profile">Профиль</button>
+    </nav>
+    <div class="mobile-detail" id="mobile-detail" aria-live="polite"></div>
+    <div id="modal-root"></div>
+  </div>
+  <script>
+    (() => {
+      "use strict";
+      const STORAGE_KEY = "po-delu-demo-v1";
+      const METHOD = "СБП · Т-Банк ··4821";
+      const labels = {
+        wb: ["Wildberries", "task-wb"], ozon: ["Ozon", "task-ozon"],
+        ai: ["Нейросеть", "task-ai"], photo: ["Фото", "task-photo"],
+        video: ["Видео", "task-video"], check: ["Сверка", "task-check"]
+      };
+      const money = value => `${Math.round(value).toLocaleString("ru-RU")} ₽`;
+      const plural = (value, one, few, many) => {
+        const last = value % 10, lastTwo = value % 100;
+        if (last === 1 && lastTwo !== 11) return one;
+        if (last >= 2 && last <= 4 && (lastTwo < 12 || lastTwo > 14)) return few;
+        return many;
+      };
+      const stamp = date => new Intl.DateTimeFormat("ru-RU", {
+        timeZone: "Europe/Moscow", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", hourCycle: "h23"
+      }).format(date);
+      const dateLabel = (day, hour, minute) => `2026-10-${String(day).padStart(2,"0")}T${String(hour).padStart(2,"0")}:${String(minute).padStart(2,"0")}:00+03:00`;
+      const makeTask = (id, cat, title, subject, brief, hints, pay, minutes, place, customer, order, placeholder, prompts=[]) => ({
+        id, cat, title, subject, brief, hints, pay, minutes, place, customer, order, placeholder, prompts, status: "active"
+      });
+      const doneTask = (id, cat, title, subject, pay, day, hour, minute, note) => ({
+        id, cat, title, subject, pay, status: "done", sort: Date.parse(dateLabel(day,hour,minute)),
+        completedLabel: `${day} октября, ${String(hour).padStart(2,"0")}:${String(minute).padStart(2,"0")}`, note
+      });
+      const initialState = () => ({
+        balance: 12720,
+        tasks: [
+          makeTask("wb-soundly","wb","Карточка для Wildberries","Наушники Soundly S2, чёрные","Нужен заголовок до 60 знаков и три коротких преимущества. Без «лучший», «хит» и капса — такие карточки магазин возвращает. Факты: Bluetooth 5.3, 28 часов с кейсом, амбушюры мягкие.",["Заголовок одной строкой","Три буллета, без воды","Цвет в тексте указать"],890,15,"удалённо","магазин «Тихий звук»","18442","Заголовок и три буллета…"),
+          makeTask("photo-lefort","photo","Сфотографировать фасад","БЦ «Лефорт», Авиамоторная, 12","Два кадра: общий вид с тротуара и табличка у входа. Дневной свет, без лиц крупно и без номеров машин. Если леса или табличка не читается — так и напишите.",["С тротуара, не из машины","Табличка должна читаться","Можно приложить файлы или описать кадры"],620,25,"Москва, Лефортово","бюро «Слой»","19007","Что на кадрах: вход, табличка, погода…"),
+          makeTask("ozon-mug","ozon","Карточка для Ozon","Термокружка Road, 450 мл","Заголовок, пять характеристик списком и короткий абзац «о товаре». Сталь 18/8, крышка с клапаном, тепло держит около шести часов. Не обещайте сутки.",["Характеристики отдельно от текста","Объём 450 мл не перепутать с 350","Без сравнения с другими брендами"],740,20,"удалённо","мастерская Road","17790","Заголовок, характеристики, абзац…"),
+          makeTask("ai-local","ai","Прогнать модель на своём ПК","Три коротких промпта, без облака","Любая открытая модель, которая крутится локально: Llama, Qwen, Gemma, Mistral. Облако не подходит. Пришлите название, размер в гигабайтах и ответы на три вопроса.",["Модель должна быть у вас на диске","Достаточно коротких ответов","Если не влезла в память — напишите, какая пытались"],1450,40,"ваш компьютер","лаборатория «Чердак»","20114","Модель, гигабайты и три ответа…",["Почему небо голубое — четырьмя простыми предложениями.","Список покупок на борщ на четверых.","Что не так с фразой «в сутках 32 часа»?"]),
+          makeTask("video-bakery","video","Короткое видео витрины","Пекарня на Цветном, 15 секунд","Вертикальный ролик: вывеска, хлеб на витрине, хотя бы один ценник. Лица крупно не нужны. Звук улицы можно оставить. Если закроете текстом, опишите, что в кадре по секундам.",["Вертикально","Вывеска читается","Один ценник в кадре"],540,20,"Москва, Цветной","пекарня «Корка»","18821","Что видно с 0 по 15 секунду…"),
+          makeTask("check-vac","check","Сверить характеристики","Пылесос Vento V4 и карточка продавца","В инструкции: мощность 450 Вт, бак 0,8 л, шнур 6 м, вес 3,4 кг, шум 72 дБ. В карточке продавца: 600 Вт, бак 1,2 л, шнур 6 м, вес 3,4 кг, шум 68 дБ.",["Напишите только расхождения","Как в инструкции → как у продавца"],310,10,"удалённо","сервис Vento","17602","Мощность: 450 Вт, у продавца 600…"),
+          doneTask("d-check","check","Сверить описание наушников","Продавец перепутал кейс и зарядку",340,16,11,40,"Кейс 28 ч, не 18. Зарядка USB-C, не micro."),
+          doneTask("d-wb","wb","Карточка WB: плед","Вязаный, 130×170, шерсть",920,15,19,5,"Заголовок без «хит». Три буллета про состав, стирку и размер."),
+          doneTask("d-ai","ai","Локальная Qwen 7B","Три промпта на домашнем ПК",1400,14,16,22,"Qwen2.5-7B, 4.7 ГБ. Ответы приложил текстом."),
+          doneTask("d-photo","photo","Фасад на Покровке","Дом 17, табличка УК",480,13,12,10,"Два кадра днём, лесов нет, табличка читается."),
+          doneTask("d-ozon","ozon","Карточка Ozon: термос","Стальной, 750 мл",760,11,18,47,"Пять характеристик и абзац без обещания «держит сутки»."),
+          doneTask("d-ai2","ai","Сравнил две модели","Llama и Gemma, одни промпты",1150,9,10,15,"Обе локально. Gemma короче, Llama подробнее. Таблица в ответе."),
+          doneTask("d-coffee","photo","Вывеска кофейни","Улица Маросейка, вечерний свет",390,7,15,33,"Вывеска целиком, бликов на стекле нет."),
+          doneTask("d-bag","wb","Инфографика WB: рюкзак",'Городской, 18 л',980,4,13,8,'Три плашки: объём, ноутбук 15", вес. Без стоковых лиц.')
+        ],
+        withdrawals: [
+          { id:"w1", amount:5000, when:"15 октября, 20:12", sort:Date.parse(dateLabel(15,20,12)), method:METHOD },
+          { id:"w2", amount:7200, when:"8 октября, 12:40", sort:Date.parse(dateLabel(8,12,40)), method:METHOD },
+          { id:"w3", amount:8500, when:"28 сентября, 19:05", sort:Date.parse("2026-09-28T19:05:00+03:00"), method:METHOD },
+          { id:"w4", amount:6400, when:"14 сентября, 11:18", sort:Date.parse("2026-09-14T11:18:00+03:00"), method:METHOD },
+          { id:"w5", amount:9180, when:"2 сентября, 16:55", sort:Date.parse("2026-09-02T16:55:00+03:00"), method:METHOD }
+        ]
+      });
+      function loadState() {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (!saved) return initialState();
+          const parsed = JSON.parse(saved);
+          if (!Number.isFinite(parsed.balance) || !Array.isArray(parsed.tasks) || !Array.isArray(parsed.withdrawals)) return initialState();
+          return parsed;
+        } catch (error) {
+          console.warn("Не удалось загрузить демо-данные. Показаны исходные данные.", error);
+          return initialState();
+        }
+      }
+      let state = loadState();
+      let view = "home";
+      let tab = "active";
+      let selectedId = "wb-soundly";
+      let mobileDetailOpen = false;
+      const main = document.querySelector("#main");
+      const mobileDetail = document.querySelector("#mobile-detail");
+      const modalRoot = document.querySelector("#modal-root");
+      const esc = text => String(text ?? "").replace(/[&<>"']/g, ch => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[ch]));
+      const activeTasks = () => state.tasks.filter(task => task.status !== "done");
+      const doneTasks = () => state.tasks.filter(task => task.status === "done").sort((a,b) => b.sort-a.sort);
+      const catChip = task => `<span class="chip">${esc(labels[task.cat][0])}</span>${task.cat === "ai" ? '<span class="chip chip-ai">AI</span>' : ""}`;
+      function taskFace(task, selected=false) {
+        const status = task.status === "review" ? '<span class="chip chip-status">на проверке</span>' : task.status === "done" ? '<span class="chip chip-status">сдано</span>' : "";
+        return `<button class="task-card ${labels[task.cat][1]}${selected ? " selected" : ""}" type="button" data-task="${esc(task.id)}">
+          <span class="task-top"><span class="task-copy"><span class="chips">${catChip(task)}${status}</span>
+          <span class="task-title">${esc(task.title)}</span><span class="task-subject">${esc(task.subject)}</span></span>
+          <span class="task-pay">${money(task.pay)}</span></span>
+          <span class="task-meta">${task.status === "done" ? esc(task.completedLabel) : task.status === "review" ? "Отправлено на проверку" : `${task.minutes} мин · ${esc(task.place)}`}</span>
+        </button>`;
+      }
+      function movements() {
+        return [
+          ...state.withdrawals.map(row => ({ id:row.id, title:"Вывод на СБП", when:row.when, sort:row.sort, amount:row.amount, dir:"out" })),
+          ...state.tasks.filter(task => task.status === "done" && task.sort && task.completedLabel).map(task => ({ id:task.id, title:task.title, when:task.completedLabel, sort:task.sort, amount:task.pay, dir:"in" }))
+        ].sort((a,b) => b.sort-a.sort);
+      }
+      function feedRows(rows) {
+        return rows.map(row => `<div class="feed-row"><span style="min-width:0"><span class="feed-title">${esc(row.title)}</span><span class="feed-date">${esc(row.when)}</span></span>
+          <span class="feed-amount ${row.dir === "in" ? "in" : ""}">${row.dir === "in" ? "+" : "−"}${money(row.amount)}</span></div>`).join("");
+      }
+      function homePage() {
+        const done = doneTasks();
+        const month = done.filter(task => task.sort >= Date.parse("2026-10-01T00:00:00+03:00"));
+        const featureIds = ["wb-soundly","photo-lefort","ozon-mug","ai-local"];
+        const featured = featureIds.map(id => state.tasks.find(task => task.id === id)).filter(Boolean);
+        const now = new Date();
+        const greeting = now.getHours() < 12 ? "Доброе утро" : now.getHours() < 18 ? "Добрый день" : "Добрый вечер";
+        const shortDate = new Intl.DateTimeFormat("ru-RU", { timeZone:"Europe/Moscow", weekday:"long", day:"numeric", month:"long" }).format(now);
+        return `<div class="eyebrow">${esc(shortDate)} · Москва</div>
+          <h1>${greeting}, Артём</h1>
+          <p class="intro">Модерация без очереди. На СБП уходит сразу, карта Т-Банка уже привязана.</p>
+          <div class="home-grid"><div class="main-column">
+            <section class="panel balance-card"><div><div class="balance-caption">Доступно</div><p class="big-balance">${money(state.balance)}</p><p class="small-muted">Выведено ${money(totalWithdrawn())}</p></div>
+              <button class="button" type="button" data-action="profile">Вывести</button></section>
+            <section><div class="section-head"><h2>Можно взять</h2><button class="text-button" type="button" data-action="browse">Все задания</button></div>
+              <div class="task-list">${featured.map(task => taskFace(task)).join("")}</div></section>
+            <section><div class="section-head"><h2>Движения</h2></div><div class="panel feed">${feedRows(movements().slice(0,5))}</div></section>
+          </div><aside class="side-column">
+            <section class="panel metric-panel"><div class="metric-label">В октябре</div><p class="metric-value">${money(month.reduce((sum,task)=>sum+task.pay,0))}</p><p class="metric-copy">${month.length} ${plural(month.length,"сдача","сдачи","сдач")}, без отказов</p></section>
+            <section class="panel metric-panel"><div class="metric-label">Рейтинг</div><p class="metric-value" style="color:var(--ink)">★ 4,97</p><p class="metric-copy">Ставят заказчики. Очередь из-за этого короткая.</p></section>
+            <section class="panel metric-panel"><div class="metric-label" style="color:var(--ink);font-weight:700">Куда падают деньги</div><p class="metric-copy">СБП, Т-Банк ··4821. Комиссии нет, заявка в поддержку не нужна.</p></section>
+          </aside></div>`;
+      }
+      function detailMarkup(task, suffix="") {
+        if (!task) return "";
+        const prompts = task.prompts?.length ? `<ul class="hint-list">${task.prompts.map(item=>`<li>${esc(item)}</li>`).join("")}</ul>` : "";
+        let body = "";
+        if (task.status === "active") {
+          body = `<p class="brief">${esc(task.brief)}</p>${task.hints?.length ? `<ul class="hint-list">${task.hints.map(item=>`<li>${esc(item)}</li>`).join("")}</ul>` : ""}${prompts}
+            <form data-submit-task="${esc(task.id)}"><label class="field-label" for="answer-${esc(task.id)}${suffix}">Результат</label>
+            <textarea class="field" id="answer-${esc(task.id)}${suffix}" name="answer" placeholder="${esc(task.placeholder)}"></textarea>
+            <div style="margin-top:11px"><label class="file-label" for="file-${esc(task.id)}${suffix}">＋ Прикрепить файл</label><input class="file-input" id="file-${esc(task.id)}${suffix}" name="file" type="file" accept="image/*,video/*,.pdf,.txt"><span class="file-name" data-file-name></span></div>
+            <div class="submit-row"><button class="button full" type="submit">Отправить на проверку</button></div></form>`;
+        } else if (task.status === "review") {
+          body = `<strong>На проверке</strong><p class="small-muted">Анна из модерации смотрит ответ. Обычно это быстро.</p><div class="review-track"><div class="review-fill"></div></div>${task.note ? `<p class="done-note" style="margin-top:15px">${esc(task.note)}${task.fileName ? `<br>Файл: ${esc(task.fileName)}` : ""}</p>` : ""}`;
+        } else {
+          const justApproved = task.sort && Date.now() - task.sort < 120000;
+          body = `<strong style="color:var(--money)">${justApproved ? "Принято" : "Сдано"}</strong><p class="success-amount">+${money(task.pay)}</p><p class="small-muted">${justApproved ? "Уже на балансе. Можно выводить." : esc(task.completedLabel || "")}</p>${task.note ? `<p class="done-note" style="margin-top:14px">${esc(task.note)}</p>` : ""}${task.fileName ? `<p class="small-muted">Файл: ${esc(task.fileName)}</p>` : ""}${justApproved ? '<button class="button full" style="margin-top:16px" type="button" data-action="profile">К балансу</button>' : ""}`;
+        }
+        return `<article class="detail-card ${labels[task.cat][1]}"><div class="detail-head"><div class="chips">${catChip(task)}${task.order ? `<span class="feed-date">№${esc(task.order)}</span>` : ""}</div>
+          <div class="detail-title-line"><h2 class="detail-title">${esc(task.title)}</h2><span class="task-pay" style="font-size:23px">${money(task.pay)}</span></div>
+          <p class="detail-subject">${esc(task.subject)}</p>${task.customer ? `<p class="detail-client">${esc(task.customer)} · ${esc(task.place)}</p>` : ""}</div>
+          <div class="detail-body">${body}</div></article>`;
+      }
+      function tasksPage() {
+        const active = activeTasks();
+        const done = doneTasks();
+        const list = tab === "active" ? active : done;
+        return `<div class="page-heading"><div><div class="eyebrow">пятница, 16 октября</div><h1 style="margin-top:3px">Задания</h1></div><p class="heading-note">${active.length} в ленте<br>без просрочки</p></div>
+          <div class="tabs" role="tablist"><button class="tab ${tab === "active" ? "active" : ""}" type="button" data-tab="active">Активные · ${active.length}</button>
+          <button class="tab ${tab === "done" ? "active" : ""}" type="button" data-tab="done">Выполненные · ${done.length}</button></div>
+          <div class="tasks-layout"><div><div class="task-list">${list.length ? list.map(task=>taskFace(task,task.id===selectedId)).join("") : '<p class="panel empty">Лента пустая. Новые обычно кладут утром.</p>'}</div>
+          ${tab === "done" ? `<p class="archive-note">В списке последние. Всего сдано ${38+done.length} заданий с марта 2025.</p>` : ""}</div>
+          <div class="detail-column">${detailMarkup(state.tasks.find(task=>task.id===selectedId) || active[0])}</div></div>`;
+      }
+      function totalWithdrawn() { return state.withdrawals.reduce((sum,row)=>sum+row.amount,0); }
+      function profilePage() {
+        const completedCount = 38 + doneTasks().length;
+        return `<section class="profile"><div class="identity"><div class="avatar">АС</div><div><h1>Артём Соколов</h1><p class="identity-meta">Москва · с марта 2025 · ID 48219</p><p class="verified"><span class="verified-mark">✓</span> Документы проверены　★ 4,97</p></div></div>
+          <section class="payout-card"><div class="metric-label">Доступно к выводу</div><p class="payout-balance">${money(state.balance)}</p><button class="button light full" type="button" data-action="withdraw" ${state.balance < 100 ? "disabled" : ""}>Вывести</button><p class="payout-method">СБП · Т-Банк ··4821 · без комиссии</p></section>
+          <dl class="panel stats"><div class="stat"><dt class="stat-label">Выведено</dt><dd class="stat-value">${money(totalWithdrawn())}</dd></div><div class="stat"><dt class="stat-label">Сдано</dt><dd class="stat-value">${completedCount}</dd></div><div class="stat"><dt class="stat-label">За всё время</dt><dd class="stat-value">${money(state.balance+totalWithdrawn())}</dd></div></dl>
+          <section class="panel bank-card"><p class="bank-title">Куда приходят</p><p class="bank-copy">Т-Банк · система быстрых платежей</p><p class="bank-muted">+7 903 ··· 41-27 · на имя Артёма Соколова</p></section>
+          <section class="withdrawals"><h2>Выводы</h2><div class="panel">${state.withdrawals.map(row=>`<div class="withdraw-row"><span><span class="feed-title">${esc(row.when)}</span><span class="feed-date">${esc(row.method)}</span></span><span style="text-align:right"><span class="feed-title">${money(row.amount)}</span><span class="withdraw-status">зачислено</span></span></div>`).join("")}</div></section>
+          <p class="demo-note">Демонстрационный макет · операции не являются реальными</p></section>`;
+      }
+      function render() {
+        main.innerHTML = view === "home" ? homePage() : view === "tasks" ? tasksPage() : profilePage();
+        document.querySelectorAll("[data-balance]").forEach(el=>el.textContent=money(state.balance));
+        document.querySelectorAll("[data-view]").forEach(button=>button.classList.toggle("active",button.dataset.view===view));
+        if (mobileDetailOpen && view === "tasks") {
+          mobileDetail.classList.add("open");
+          mobileDetail.innerHTML = `<button class="button outline back-button" type="button" data-action="close-detail">‹　К списку</button>${detailMarkup(state.tasks.find(task=>task.id===selectedId),"-mobile")}`;
+        } else {
+          mobileDetail.classList.remove("open");
+          mobileDetail.innerHTML = "";
+        }
+      }
+      function persist() {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+        catch (error) { console.error("Не удалось сохранить изменения демо-сессии.", error); }
+      }
+      function update(mutator) { state = mutator(state); persist(); render(); }
+      function setView(next) { view = next; mobileDetailOpen = false; window.scrollTo({top:0,behavior:"smooth"}); render(); }
+      function submitTask(id, note, fileName) {
+        update(current => ({ ...current, tasks: current.tasks.map(task => task.id === id && task.status === "active" ? { ...task, status:"review", submittedAt:Date.now(), note, fileName } : task) }));
+        window.setTimeout(() => {
+          update(current => {
+            const now = Date.now();
+            let added = 0;
+            const tasks = current.tasks.map(task => {
+              if (task.id !== id || task.status !== "review") return task;
+              added += task.pay;
+              return { ...task, status:"done", submittedAt:undefined, sort:now, completedLabel:stamp(new Date(now)) };
+            });
+            return added ? { ...current, balance:current.balance+added, tasks } : current;
+          });
+        }, 2000);
+      }
+      function openWithdrawal() {
+        modalRoot.innerHTML = `<div class="modal-backdrop" data-close-modal><section class="modal" role="dialog" aria-modal="true" aria-labelledby="withdraw-title"><div id="withdraw-form">
+          <h2 id="withdraw-title">Вывод</h2><p class="modal-copy">СБП · Т-Банк ··4821 · зачисление сразу</p>
+          <label class="field-label" for="withdraw-amount">Сумма</label><div class="amount-input-row"><input class="amount-input" id="withdraw-amount" inputmode="numeric" autocomplete="off" placeholder="0" aria-describedby="withdraw-error"><span class="currency">₽</span></div>
+          <div class="quick-amounts">${[1000,5000].filter(value=>value<=state.balance).map(value=>`<button class="quick-amount" type="button" data-amount="${value}">${money(value)}</button>`).join("")}<button class="quick-amount" type="button" data-amount="${state.balance}">Всё · ${money(state.balance)}</button></div>
+          <p class="form-error" id="withdraw-error" aria-live="polite">Минимум 100 ₽. Комиссии нет.</p><button class="button full" type="button" data-action="confirm-withdraw">Вывести</button>
+          </div></section></div>`;
+        const input = modalRoot.querySelector("#withdraw-amount");
+        input.focus();
+      }
+      function confirmWithdrawal(amount) {
+        if (!Number.isFinite(amount) || amount < 100 || amount > state.balance) {
+          const error = modalRoot.querySelector("#withdraw-error");
+          if (error) error.textContent = amount < 100 ? "Минимальная сумма вывода — 100 ₽." : "На балансе недостаточно средств.";
+          return;
+        }
+        const when = stamp(new Date());
+        const withdrawal = { id:`w-${Date.now()}`, amount:Math.round(amount), when, sort:Date.now(), method:METHOD };
+        update(current => ({ ...current, balance:current.balance-withdrawal.amount, withdrawals:[withdrawal,...current.withdrawals] }));
+        modalRoot.innerHTML = `<div class="modal-backdrop"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="receipt-heading"><div class="receipt">
+          <div class="receipt-check">✓</div><p class="receipt-label">Зачислено</p><h2 id="receipt-heading" class="receipt-amount">${money(withdrawal.amount)}</h2>
+          <p class="receipt-info">СБП · Т-Банк ··4821<br><span>только что · на +7 903 ··· 41-27</span></p><button class="button full" type="button" data-action="close-modal">Готово</button></div>
+          <p class="demo-note">Демо-операция · реальные деньги не переводятся</p></section></div>`;
+      }
+      document.addEventListener("click", event => {
+        const button = event.target.closest("button");
+        if (!button) return;
+        if (button.dataset.view) { setView(button.dataset.view); return; }
+        if (button.dataset.tab) { tab=button.dataset.tab; mobileDetailOpen=false; render(); return; }
+        if (button.dataset.task) {
+          selectedId=button.dataset.task;
+          if (view === "home") { view="tasks"; tab="active"; }
+          mobileDetailOpen=true;
+          render();
+          return;
+        }
+        if (button.dataset.action === "browse") { view="tasks"; tab="active"; mobileDetailOpen=false; render(); return; }
+        if (button.dataset.action === "profile") { setView("profile"); return; }
+        if (button.dataset.action === "withdraw") { openWithdrawal(); return; }
+        if (button.dataset.action === "close-detail") { mobileDetailOpen=false; render(); return; }
+        if (button.dataset.action === "confirm-withdraw") { confirmWithdrawal(Number(modalRoot.querySelector("#withdraw-amount")?.value || 0)); return; }
+        if (button.dataset.action === "close-modal") { modalRoot.innerHTML=""; render(); return; }
+        if (button.dataset.amount) { const input=modalRoot.querySelector("#withdraw-amount"); input.value=button.dataset.amount; input.focus(); }
+      });
+      document.addEventListener("input", event => {
+        if (event.target.id === "withdraw-amount") event.target.value=event.target.value.replace(/\D/g,"").slice(0,7);
+      });
+      document.addEventListener("change", event => {
+        if (event.target.matches('input[type="file"]')) {
+          const holder=event.target.parentElement.querySelector("[data-file-name]");
+          if (holder) holder.textContent=event.target.files?.[0]?.name || "";
+        }
+      });
+      document.addEventListener("submit", event => {
+        const form=event.target.closest("[data-submit-task]");
+        if (!form) return;
+        event.preventDefault();
+        const answer=form.elements.answer.value.trim();
+        const file=form.elements.file.files?.[0];
+        if (!answer && !file) { form.elements.answer.focus(); form.elements.answer.setCustomValidity("Добавьте текст или прикрепите файл."); form.elements.answer.reportValidity(); form.elements.answer.setCustomValidity(""); return; }
+        submitTask(form.dataset.submitTask,answer,file?.name);
+      });
+      document.addEventListener("click", event => {
+        if (event.target.matches("[data-close-modal]")) modalRoot.innerHTML="";
+      });
+      document.addEventListener("keydown", event => { if (event.key==="Escape") { modalRoot.innerHTML=""; mobileDetailOpen=false; render(); } });
+      render();
+    })();
+  </script>
+</body>
+</html>
